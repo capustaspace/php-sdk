@@ -177,14 +177,13 @@ class Notification
      */
     protected function checkRequest()
     {
-        $headers = apache_request_headers();
-        if (!isset($headers['Authorization'])) {
+        $auth  = $_SERVER["HTTP_AUTHORIZATION"];;
+        if (!isset($auth) || $auth == '') {
             throw new NotificationSecurityException('No Authorization Bearer received');
         }
-        $receivedAuth = $headers['Authorization'];
         $correctAuth = 'Bearer '.$this->merchantEmail.':'.$this->token;
-        if ($receivedAuth !== $correctAuth) {
-            throw new NotificationSecurityException('Incorrect Authorization Bearer received');
+        if ($auth !== $correctAuth) {
+            throw new NotificationSecurityException('Incorrect Authorization Bearer received ');
         }
 
         if (strtolower($_SERVER['REQUEST_METHOD']) !== 'post') {
