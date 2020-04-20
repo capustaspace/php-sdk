@@ -210,9 +210,9 @@ try {
 This code is responsible for processing the payment result.
 You need to create handler, make it available on URL in your application and specify the URL in the project settings in [my.capusta.space](http://my.capusta.space).
 This handler will be called after the user makes a payment using the form on capusta.space
-
+    
 ```php
-$notification = new Notification();
+$notification = new \Capusta\SDK\Notification();
 $notification->setAuth('merchantEmail', 'token');
 $notification->process();
 ```

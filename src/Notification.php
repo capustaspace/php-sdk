@@ -140,7 +140,7 @@ class Notification
     protected function getRequestFromBody()
     {
         $body = $this->getBody();
-
+        throw new IncorrectBodyRequestException(json_encode($body));
         if (!is_string($body)) {
             throw new IncorrectBodyRequestException('The request body contains an invalid json');
         }
@@ -172,6 +172,17 @@ class Notification
 
         if (!$this->isIpAllowed()) {
             throw new NotificationSecurityException('Remote ip is not allowed');
+        }
+
+        if (empty($_SERVER['HTTP_X_KASSA_SIGNATURE'])) {
+            throw new NotificationSecurityException('Empty signature');
+        }
+
+        $signature = strtolower($_SERVER['HTTP_X_KASSA_SIGNATURE']);
+        $expectedSignature = strtolower(hash('sha256', $this->getBody() . $this->apiKey));
+
+        if ($signature !== $expectedSignature) {
+            throw new NotificationSecurityException('Incorrect signature');
         }
     }
 
