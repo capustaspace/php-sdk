@@ -1,0 +1,49 @@
+{
+  "name": "capusta/php-sdk",
+  "description": "Capusta PHP SDK",
+  "keywords": [
+    "payment",
+    "payments",
+    "pay",
+    "cards",
+    "money",
+    "sdk",
+    "capusta.space",
+    "capusta"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Capusta.Space Developers",
+      "email": "support@capusta.space"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=5.5",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "psr/log": "*",
+    "guzzlehttp/psr7": "^1.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.2",
+    "guzzlehttp/guzzle": "^6.5"
+  },
+  "suggest": {
+    "guzzlehttp/guzzle": "Guzzle Api Transport"
+  },
+  "autoload": {
+    "psr-4": {
+      "Capusta\\SDK\\": "src/",
+      "Tests\\Capusta\\SDK\\": "tests/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.5.x-dev"
+    }
+  }
+}
