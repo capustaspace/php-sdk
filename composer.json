@@ -1,6 +1,5 @@
 {
   "name": "capusta/php-sdk",
-  "version": "1.0.3",
   "description": "Capusta PHP SDK",
   "keywords": [
     "payment",
@@ -41,9 +40,4 @@
       "Capusta\\SDK\\": "src/"
     }
   },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.0.x-dev"
-    }
-  }
 }
