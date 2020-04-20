@@ -4,7 +4,7 @@ Documentation: https://dev.capusta.space/
 
 ## Requirements
 
-PHP 5.6 and later.
+PHP 5.5 and later.
 
 ## Dependencies
 
@@ -24,7 +24,7 @@ Optionally
 You can install the lib via [Composer](http://getcomposer.org/). Run the following command:
 
 ```bash
-composer require capustaspace/php-sdk
+composer require capusta/php-sdk
 ```
 
 To use the bindings, use Composer's [autoload](https://getcomposer.org/doc/01-basic-usage.md#autoloading):
