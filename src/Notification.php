@@ -177,7 +177,7 @@ class Notification
      */
     protected function checkRequest()
     {
-        $auth  = $_SERVER["HTTP_AUTHORIZATION"];;
+        $auth  = $_SERVER["HTTP_AUTHORIZATION"];
         if (!isset($auth) || $auth == '') {
             throw new NotificationSecurityException('No Authorization Bearer received');
         }
