@@ -19,7 +19,7 @@
       "email": "support@capusta.space"
     }
   ],
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "require": {
     "php": ">=5.6",
     "ext-curl": "*",
