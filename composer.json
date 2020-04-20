@@ -1,7 +1,6 @@
 {
   "name": "capusta/php-sdk",
   "description": "Capusta PHP SDK",
-  "version": "1.0.6",
   "keywords": [
     "payment",
     "payments",
@@ -20,7 +19,6 @@
       "email": "support@capusta.space"
     }
   ],
-  "minimum-stability": "dev",
   "require": {
     "php": ">=5.6",
     "ext-curl": "*",
