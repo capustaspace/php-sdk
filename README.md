@@ -212,10 +212,11 @@ You need to create handler, make it available on URL in your application and spe
 This handler will be called after the user makes a payment using the form on capusta.space
 
 ```php
-$notification = new Notification();
+$notification = new \Capusta\SDK\Notification();
 $notification->setAuth('merchantEmail', 'token');
-$notification->process();
+$responseNotification = $notification->process();
 ```
+$responseNotification contains object with notification parameters.
 
 You can use manual response to server:
 
@@ -239,7 +240,7 @@ $notification->setSkipIpCheck();
 You can create your own api transport by extending `Capusta\SDK\Transport\AbstractApiTransport`
 
 ```php
-class MyApiTransport extends AbstractApiTransport {
+class MyApiTransport extends \Capusta\SDK\Transport\AbstractApiTransport {
     protected function sendRequest(Psr7\Request $request) {
         // Implementing the sendRequest() method
     }
