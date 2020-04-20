@@ -37,11 +37,24 @@ class Notification
 
 
     /**
+     * @var NotificationRequest|null
+     */
+    private $request;
+
+    /**
      * @param string $merchantEmail
      */
     private function setMerchantEmail($merchantEmail)
     {
         $this->merchantEmail = $merchantEmail;
+    }
+
+    /**
+     * @param NotificationRequest $request
+     */
+    private function setRequest(NotificationRequest $request)
+    {
+        $this->request = $request;
     }
 
     /**
@@ -83,8 +96,8 @@ class Notification
 
             throw $e;
         }
-
-        return $request;
+        $this->request = $request;
+        return $this->request;
     }
 
     public function successResponse()
@@ -140,7 +153,6 @@ class Notification
     protected function getRequestFromBody()
     {
         $body = $this->getBody();
-
         if (!is_string($body)) {
             throw new IncorrectBodyRequestException('The request body contains an invalid json');
         }
@@ -157,7 +169,6 @@ class Notification
         } catch (\Exception $e) {
             throw new NotificationParseException('An error occurred while parsing the request');
         }
-
         return $request;
     }
 
