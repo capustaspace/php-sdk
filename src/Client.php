@@ -30,6 +30,10 @@ use Capusta\SDK\Model\Request\Bill\CreateBillRequest;
 use Capusta\SDK\Model\Request\Bill\CreateBillSerializer;
 use Capusta\SDK\Model\Request\Bill\CreateBillTransport;
 
+use Capusta\SDK\Model\Request\Project\CreateProjectRequest;
+use Capusta\SDK\Model\Request\Project\CreateProjectSerializer;
+use Capusta\SDK\Model\Request\Project\CreateProjectTransport;
+
 use Capusta\SDK\Model\Request\Status\GetStatusRequest;
 use Capusta\SDK\Model\Request\Status\GetStatusSerializer;
 use Capusta\SDK\Model\Request\Status\GetStatusTransport;
@@ -41,6 +45,7 @@ use Capusta\SDK\Model\Request\Payout\CreatePayoutTransport;
 use Capusta\SDK\Model\Response\AbstractResponse;
 use Capusta\SDK\Model\Response\Payment\CreatePaymentResponse;
 use Capusta\SDK\Model\Response\Bill\CreateBillResponse;
+use Capusta\SDK\Model\Response\Project\CreateProjectResponse;
 
 use Capusta\SDK\Model\Response\Payout\CreatePayoutResponse;
 use Capusta\SDK\Model\Response\Status\GetStatusResponse;
@@ -52,7 +57,7 @@ use Capusta\SDK\Actions\ObjectRecursiveValidator;
 
 class Client
 {
-    const VERSION = '1.0.7';
+    const VERSION = '1.1.0';
 
     /** @var AbstractApiTransport */
     private $apiTransport;
@@ -144,6 +149,32 @@ class Client
         return $this->execute($billTransport, CreateBillResponse::class);
     }
 
+
+    /**
+     * @param CreateProjectRequest|AbstractRequest|array $project
+     *
+     * @return CreateProjectResponse|AbstractResponse
+     *
+     * @throws TransportException
+     * @throws JsonParseException
+     * @throws ResponseException
+     * @throws ResponseParseException
+     * @throws RequestParseException
+     */
+    public function createProject($project)
+    {
+        if (is_array($project)) {
+            $project = RequestCreator::create(CreateProjectRequest::class, $project);
+        }
+
+        ObjectRecursiveValidator::validate($project);
+        $projectSerializer = new CreateProjectSerializer($project);
+        $projectTransport = new CreateProjectTransport($projectSerializer);
+
+        $response = $this->execute($projectTransport, CreateProjectResponse::class);
+        return $response;
+    }
+
     /**
      * @param CreatePayoutRequest|AbstractRequest|array $payout
      *
@@ -188,8 +219,7 @@ class Client
             json_encode($requestTransport->getBody()),
             $requestTransport->getHeaders()
         );
-
-        if ($response->getStatusCode() != 200) {
+        if ($response->getStatusCode() !== 200 && $response->getStatusCode() !== 201) {
             $this->processError($response); // throw ResponseException
         }
 

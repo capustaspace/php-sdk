@@ -76,10 +76,10 @@ try {
 or you can create request with array
 ```php
 $requestArray = [
-    'id' => [/*...*/], // your ID of transaction, optional.
+    'id' => "YOUR_TRANSACTION_ID", // your ID of transaction, optional.
     'amount' => [/*...*/], //array of 'amount' in minor value and 'currency'.
-    'description' => [/*...*/], //optoinal
-    'projectCode' => [/*...*/], //required, code can be taken from my.capusta.space
+    'description' => "description", //optoinal
+    'projectCode' => "code", //required, code can be taken from my.capusta.space
     'sender' => [/*...*/], //optional array of 'name', 'phone', 'email', 'comment'.
 ];
 
@@ -113,22 +113,22 @@ try {
 or you can create request with array
 ```php
 $requestArray = [
-    'id' => [/*...*/],
-    'amount' => [/*...*/],
-    'description' => [/*...*/],
-    'projectCode' => [/*...*/],
+    'id' => "YOUR_BILL_ID", //optional
+    'amount' => [/*...*/], //array of 'amount' in minor value and 'currency'
+    'description' => "description", //optional description of bill
+    'projectCode' => "code", //your project code
 ];
 // ^^^^^^^^ the same fields like in payment method.
  
 try {
-    /** @var Capusta\SDK\Model\Response\Payment\CreatePaymentResponse $createPaymentResponse */
-    $createPaymentResponse = $client->createPayment($requestArray);
+    /** @var Capusta\SDK\Model\Response\Bill\CreateBillResponse $createBillResponse */
+    $createBillResponse = $client->createBill($requestArray);
 } catch (\Exception $e) {
     // ...
 }
 ```
-if you have got `$createPaymentResponse->status == 'CREATED'`, 
-then you need to redirect user to URL: `$createPaymentResponse->payUrl`
+If you have got `$createBillResponse->status == 'CREATED'`, 
+then you need to redirect user to URL: `$createBillResponse->payUrl`
 
 
 #### Create payout
@@ -186,7 +186,7 @@ try {
 or you can create request with array
 ```php
 $requestArray = [
-    'transaction-id' => 'transaction_id', // here is the id of the search payment
+    'transaction-id' => 'transaction_id', // here is the id of the transaction
 ];
 
 try {
@@ -196,6 +196,44 @@ try {
     // ...
 }
 ```
+
+#### Create project 
+(this method is disabled by default, you need to ask support to switch this on)
+
+Creating request with object
+```php
+// Create a request object
+$createProjectRequest = new Capusta\SDK\Model\Request\Project\CreateProjectRequest();
+
+// Set up $createProjectRequest with required params
+
+try {
+    /** @var Capusta\SDK\Model\Response\Project\CreateProjectResponse $createProjectResponse */
+    $createProjectResponse = $client->createProject($createProjectRequest);
+} catch (\Exception $e) {   
+    // ...
+}
+```
+
+or you can create request with array
+```php
+$requestArray = [
+    'email' => 'email@email.org',
+    'projectLink' => "https://project.link", // URL of the project site
+    'callbackUrl' => "https://project.link/callback", // callback address
+    'failUrl' => "https://project.link/fail", //failed transactions redirect URL
+    'successUrl' => "https://project.link/success", //success transactions redirect URL
+];
+ 
+try {
+    /** @var Capusta\SDK\Model\Response\Project\CreateProjectResponse $createProjectResponse */
+    $createProjectResponse = $client->createProject($requestArray);
+} catch (\Exception $e) {
+    // ...
+}
+```
+returned object $dreateProjectResponse contains properties within the 'status' property. 
+If 'status' is "NEW" - the project is successfully created.
 
 #### Exceptions
 

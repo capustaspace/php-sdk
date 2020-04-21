@@ -1,6 +1,7 @@
 {
   "name": "capusta/php-sdk",
   "description": "Capusta PHP SDK",
+  "version": "v1.1.0",
   "keywords": [
     "payment",
     "payments",
