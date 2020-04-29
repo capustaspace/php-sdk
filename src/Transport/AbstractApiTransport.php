@@ -20,9 +20,8 @@ abstract class AbstractApiTransport implements LoggerAwareInterface
      *
      * @var string
      */
-    //TODO change to prod
-//    protected $apiUrl = 'https://api.capusta.space/v1';
-    protected $apiUrl = 'https://api.stage.capusta.space/v1';
+    protected $apiUrl = 'https://api.capusta.space/v1';
+    //protected $apiUrl = 'https://api.stage.capusta.space/v1';
 
     /**
      * @var LoggerInterface
