@@ -197,24 +197,33 @@ try {
 }
 ```
 
-#### Successfull payment report
+#### Getting payments registry
 
-Download daily registry file
+Array of successfull payments. 
+NOTE: Difference between from and to dates not be more than 24 hours.
 ```php
 $registry = new Capusta\SDK\Model\Request\Registry\GetRegistryRequest();
 $registry->setFrom(new \DateTime('1 day ago'))
-            ->setTo(new \DateTime());
+            ->setTo(new \DateTime())
+            ->setProjectCode('projectCode');
 
 $response = $client->getRegistry($registry);
 
-http_response_code($response->getStatusCode());
-$stream = $response->getBody();
+```
+or you can get payments registry with array request
+```php
+$requestArray = [
+    'projectCode' => 'projectCode', // here is the id of the transaction
+    'from' => '2020-04-30T08:19:47.000-04:00', // start date
+    'to' => '2020-05-01T08:19:47.000-04:00',
+];
 
-foreach ($response->getHeaders() as $key => $header) {
-    header($key . ': ' . join(',', $header));
+try {
+    /** @var $getRegistryResponse array */
+    $getRegistryResponse = $client->getRegistry($requestArray);
+} catch (\Exception $e) {
+    // ...
 }
-
-echo $stream->getContents();
 ```
 
 #### Create project 

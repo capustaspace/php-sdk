@@ -110,15 +110,12 @@ class Client
 
     /**
      * @param GetRegistryRequest|AbstractRequest|array $registry
-     *
+     * @return array|\Exception
      * @throws ResponseException
      * @throws TransportException
      */
     public function getRegistry($registry)
     {
-//        if (!($registry instanceof GetRegistryRequest)) {
-//            $paymentsReport = RequestCreator::create(GetRegistryRequest::class, $registry);
-//        }
         if (is_array($registry)) {
             $registry = RequestCreator::create(GetRegistryRequest::class, $registry);
         }
@@ -127,14 +124,22 @@ class Client
         $paymentsReportSerializer = new GetRegistrySerializer($registry);
         $paymentsReportTransport = new GetRegistryTransport($paymentsReportSerializer);
 
-        $filename = [];
-        $filename[] = 'registry';
-        $filename[] = $registry->getFrom()->format('YmdHis');
-        $filename[] = '_';
-        $filename[] = $registry->getTo()->format('YmdHis');
-        $filename[] = '.csv';
-
-        return $this->download($paymentsReportTransport, join($filename));
+        $response = $this->apiTransport->send(
+            $paymentsReportTransport->getPath(),
+            $paymentsReportTransport->getMethod(),
+            $paymentsReportTransport->getQueryParams(),
+            $paymentsReportTransport->getBody(),
+            $paymentsReportTransport->getHeaders()
+        );
+        if ($response->getStatusCode() === 200) {
+            $body = $response->getBody();
+            $data = $body->getContents();
+            if (is_string($data)) {
+                $payments = json_decode($data, true);
+                return $payments;
+            }
+        }
+        return [];
     }
 
 
