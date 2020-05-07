@@ -197,6 +197,26 @@ try {
 }
 ```
 
+#### Successfull payment report
+
+Download daily registry file
+```php
+$registry = new Capusta\SDK\Model\Request\Registry\GetRegistryRequest();
+$registry->setFrom(new \DateTime('1 day ago'))
+            ->setTo(new \DateTime());
+
+$response = $client->getRegistry($registry);
+
+http_response_code($response->getStatusCode());
+$stream = $response->getBody();
+
+foreach ($response->getHeaders() as $key => $header) {
+    header($key . ': ' . join(',', $header));
+}
+
+echo $stream->getContents();
+```
+
 #### Create project 
 (this method is disabled by default, you need to ask support to switch this on)
 

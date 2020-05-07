@@ -38,6 +38,11 @@ use Capusta\SDK\Model\Request\Status\GetStatusRequest;
 use Capusta\SDK\Model\Request\Status\GetStatusSerializer;
 use Capusta\SDK\Model\Request\Status\GetStatusTransport;
 
+use Capusta\SDK\Model\Request\Registry\GetRegistryRequest;
+use Capusta\SDK\Model\Request\Registry\GetRegistrySerializer;
+use Capusta\SDK\Model\Request\Registry\GetRegistryTransport;
+
+
 use Capusta\SDK\Model\Request\Payout\CreatePayoutRequest;
 use Capusta\SDK\Model\Request\Payout\CreatePayoutSerializer;
 use Capusta\SDK\Model\Request\Payout\CreatePayoutTransport;
@@ -57,7 +62,7 @@ use Capusta\SDK\Actions\ObjectRecursiveValidator;
 
 class Client
 {
-    const VERSION = '1.1.0';
+    const VERSION = '1.3.0';
 
     /** @var AbstractApiTransport */
     private $apiTransport;
@@ -74,10 +79,10 @@ class Client
      * @param $merchantEmail
      * @param $token
      */
-    public function setAuth($merchantEmail, $token)
+    public function setAuth($merchantEmail, $token, $test=false)
     {
         $auth = new TokenAuthorization($merchantEmail, $token);
-        $this->apiTransport->setAuth($auth);
+        $this->apiTransport->setAuth($auth, $test);
     }
 
 
@@ -102,6 +107,36 @@ class Client
         $paymentTransport = new CreatePaymentTransport($paymentSerializer);
         return $this->execute($paymentTransport, CreatePaymentResponse::class);
     }
+
+    /**
+     * @param GetRegistryRequest|AbstractRequest|array $registry
+     *
+     * @throws ResponseException
+     * @throws TransportException
+     */
+    public function getRegistry($registry)
+    {
+//        if (!($registry instanceof GetRegistryRequest)) {
+//            $paymentsReport = RequestCreator::create(GetRegistryRequest::class, $registry);
+//        }
+        if (is_array($registry)) {
+            $registry = RequestCreator::create(GetRegistryRequest::class, $registry);
+        }
+
+        ObjectRecursiveValidator::validate($registry);
+        $paymentsReportSerializer = new GetRegistrySerializer($registry);
+        $paymentsReportTransport = new GetRegistryTransport($paymentsReportSerializer);
+
+        $filename = [];
+        $filename[] = 'registry';
+        $filename[] = $registry->getFrom()->format('YmdHis');
+        $filename[] = '_';
+        $filename[] = $registry->getTo()->format('YmdHis');
+        $filename[] = '.csv';
+
+        return $this->download($paymentsReportTransport, join($filename));
+    }
+
 
     /**
      * @param GetStatusRequest|AbstractRequest|array $status
@@ -265,4 +300,33 @@ class Client
                 );
         }
     }
+
+    /**
+     * @param AbstractRequestTransport $requestTransport
+     * @param string                   $filename
+     *
+     * @return Psr7\MessageTrait
+     *
+     * @throws TransportException
+     */
+    protected function download(AbstractRequestTransport $requestTransport, $filename)
+    {
+        $response = $this->apiTransport->send(
+            $requestTransport->getPath(),
+            $requestTransport->getMethod(),
+            $requestTransport->getQueryParams(),
+            $requestTransport->getBody(),
+            $requestTransport->getHeaders()
+        );
+        if ($response->getStatusCode() === 200) {
+            $body = $response->getBody();
+            return (new Psr7\Response())
+                ->withHeader('Content-Type', 'text/csv; charset=utf-8')
+                ->withHeader('Content-Disposition', 'attachment; filename="' . $filename . '"')
+                ->withBody($body);
+        }
+
+        return $response;
+    }
+
 }

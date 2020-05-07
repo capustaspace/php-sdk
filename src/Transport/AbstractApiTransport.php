@@ -20,13 +20,17 @@ abstract class AbstractApiTransport implements LoggerAwareInterface
      *
      * @var string
      */
-    protected $apiUrl = 'https://api.capusta.space/v1';
-    //protected $apiUrl = 'https://api.stage.capusta.space/v1';
-
+    protected $apiUrl = 'https://api.stage.capusta.space/v1';
+    protected $testApiUrl = 'https://api.capusta.space/v1';
     /**
      * @var LoggerInterface
      */
     protected $logger;
+
+    /**
+     * @var boolean
+     */
+    protected $test;
 
     /**
      * @var AuthorizationInterface
@@ -71,9 +75,11 @@ abstract class AbstractApiTransport implements LoggerAwareInterface
      */
     public function send($path, $method, $queryParams = [], $body = null, $headers = [])
     {
-
-        $uri = rtrim($this->apiUrl, '/') . '/' . ltrim($path, '/');
-
+        if (!$this->test) {
+            $uri = rtrim($this->apiUrl, '/') . '/' . ltrim($path, '/');
+        } else {
+            $uri = rtrim($this->testApiUrl, '/') . '/' . ltrim($path, '/');
+        }
         if (is_array($queryParams) && count($queryParams)) {
             $uri .= '?' . http_build_query($queryParams);
         }
@@ -121,6 +127,13 @@ abstract class AbstractApiTransport implements LoggerAwareInterface
         return $this;
     }
 
+    /**
+     * @param $test boolean
+     */
+    public function setTest($test) {
+        $this->test = $test;
+    }
+
     public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
@@ -129,7 +142,7 @@ abstract class AbstractApiTransport implements LoggerAwareInterface
     /**
      * @param AuthorizationInterface $authorization
      */
-    public function setAuth(AuthorizationInterface $authorization)
+    public function setAuth(AuthorizationInterface $authorization, $test)
     {
         $this->authorization = $authorization;
     }
