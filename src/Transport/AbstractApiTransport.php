@@ -20,8 +20,8 @@ abstract class AbstractApiTransport implements LoggerAwareInterface
      *
      * @var string
      */
-    protected $apiUrl = 'https://api.stage.capusta.space/v1';
-    protected $testApiUrl = 'https://api.capusta.space/v1';
+    protected $apiUrl = 'https://api.capusta.space/v1';
+    protected $testApiUrl = 'https://api.stage.capusta.space/v1';
     /**
      * @var LoggerInterface
      */
@@ -102,9 +102,7 @@ abstract class AbstractApiTransport implements LoggerAwareInterface
                 'headers' => $headers,
             ]);
         }
-
         $headers['Authorization'] = $this->authorization->getAuthorizationHeader();
-
         $request = new Psr7\Request(
             $method,
             $uri,
@@ -145,5 +143,6 @@ abstract class AbstractApiTransport implements LoggerAwareInterface
     public function setAuth(AuthorizationInterface $authorization, $test)
     {
         $this->authorization = $authorization;
+        $this->test = $test;
     }
 }
