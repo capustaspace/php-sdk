@@ -42,7 +42,8 @@ class CreatePaymentRequest extends CreateBillRequest
             'id' => self::TYPE_STRING,
             'description' => self::TYPE_STRING,
             'sender' => SenderRequestItem::class,
-            'contentUrl' => self::TYPE_STRING
+            'contentUrl' => self::TYPE_STRING,
+            'custom'    => self::TYPE_STRING
         ];
     }
 }

@@ -38,6 +38,12 @@ class CreateBillRequest extends AbstractRequest
     private $projectCode;
 
     /**
+     * @var string
+     */
+    private $custom;
+
+
+    /**
      * @return string|null
      */
     public function getId()
@@ -136,6 +142,24 @@ class CreateBillRequest extends AbstractRequest
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getCustom()
+    {
+        return $this->custom;
+    }
+
+    /**
+     * @param string $custom
+     *
+     * @return $this
+     */
+    public function setCustom($custom)
+    {
+        $this->custom = $custom;
+        return $this;
+    }
 
 
 
@@ -158,6 +182,7 @@ class CreateBillRequest extends AbstractRequest
         return [
             'id' => self::TYPE_STRING,
             'description' => self::TYPE_STRING,
+            'custom' => self::TYPE_STRING,
             'contentUrl' => self::TYPE_STRING
         ];
     }

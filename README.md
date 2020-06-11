@@ -80,6 +80,7 @@ $requestArray = [
     'amount' => [/*...*/], //array of 'amount' in minor value and 'currency'.
     'description' => "description", //optoinal
     'projectCode' => "code", //required, code can be taken from my.capusta.space
+    'custom' => '{"id": 1,"shopName": "myshop"}', // optionally JSON encoded string of keys=value, with length < 255. 
     'sender' => [/*...*/], //optional array of 'name', 'phone', 'email', 'comment'.
 ];
 
@@ -117,6 +118,7 @@ $requestArray = [
     'amount' => [/*...*/], //array of 'amount' in minor value and 'currency'
     'description' => "description", //optional description of bill
     'projectCode' => "code", //your project code
+    'custom' => '{"key1": "value1","key2": "value2", ....}' // optionaly JSON encoded string with key=>value structure and length < 255.
 ];
 // ^^^^^^^^ the same fields like in payment method.
  

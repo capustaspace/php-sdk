@@ -19,6 +19,7 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
         $amount = $paymentRequest->getAmount();
         $sender = $paymentRequest->getSender();
         $description = $paymentRequest->getDescription();
+        $custom = $paymentRequest->getCustom();
         $contentUrl = $paymentRequest->getContentUrl();
         $projectCode = $paymentRequest->getProjectcode();
         $serializedCreatePayment = [];
@@ -45,6 +46,10 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
                 'comment' => $sender->getComment(),
                 'phone' => $sender->getPhone(),
             ];
+        }
+
+        if($custom) {
+            $serializedCreatePayment['custom'] = $custom;
         }
 
         return $serializedCreatePayment;
