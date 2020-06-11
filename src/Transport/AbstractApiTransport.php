@@ -83,7 +83,6 @@ abstract class AbstractApiTransport implements LoggerAwareInterface
         if (is_array($queryParams) && count($queryParams)) {
             $uri .= '?' . http_build_query($queryParams);
         }
-
         if (!$this->authorization) {
             throw new TransportException('Please provide auth data');
         }

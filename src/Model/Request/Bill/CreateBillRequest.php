@@ -38,7 +38,7 @@ class CreateBillRequest extends AbstractRequest
     private $projectCode;
 
     /**
-     * @var string
+     * @var array|null
      */
     private $custom;
 
