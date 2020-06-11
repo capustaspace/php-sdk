@@ -49,7 +49,7 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
         }
 
         if($custom) {
-            $serializedCreatePayment['custom'] = $custom;
+            $serializedCreatePayment['custom'] = (object)$custom;
         }
 
         return $serializedCreatePayment;

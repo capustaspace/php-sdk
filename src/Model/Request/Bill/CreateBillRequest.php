@@ -28,7 +28,7 @@ class CreateBillRequest extends AbstractRequest
     private $description;
 
     /**
-     * @var string|null
+     * @var array|null
      */
     private $contentUrl;
 
@@ -143,7 +143,7 @@ class CreateBillRequest extends AbstractRequest
     }
 
     /**
-     * @return string
+     * @return array|null
      */
     public function getCustom()
     {
@@ -182,7 +182,7 @@ class CreateBillRequest extends AbstractRequest
         return [
             'id' => self::TYPE_STRING,
             'description' => self::TYPE_STRING,
-            'custom' => self::TYPE_STRING,
+            'custom' => self::TYPE_ARRAY,
             'contentUrl' => self::TYPE_STRING
         ];
     }

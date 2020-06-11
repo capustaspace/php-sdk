@@ -40,7 +40,7 @@ class CreateBillSerializer extends AbstractRequestSerializer
         $serializedCreateBill['projectCode'] = $projectCode;
 
         if ($custom) {
-            $serializedCreateBill['custom'] = $custom;
+            $serializedCreateBill['custom'] = (object)$custom;
         }
 
         if ($contentUrl) {
