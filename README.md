@@ -127,7 +127,10 @@ or you can create request with array
 ```php
 $requestArray = [
     'id' => "YOUR_BILL_ID", //optional
-    'amount' => [/*...*/], //array of 'amount' in minor value and 'currency'
+    'amount' => [
+                    'amount' => 1000, //1000 = 10 RUB
+                    'currency' => 'RUB' //name of currency
+    ], //array of 'amount' in minor value and 'currency'
     'description' => "description", //optional description of bill
     'projectCode' => "code", //your project code
     'custom' => [/*...*/] // optional array of key=>value structure and length < 255.
@@ -141,8 +144,8 @@ try {
     // ...
 }
 ```
-If you have got `$createBillResponse->status == 'CREATED'`, 
-then you need to redirect user to URL: `$createBillResponse->payUrl`
+If you have got `$createBillResponse->getStatus == 'CREATED'`, 
+then you need to redirect user to URL: `$createBillResponse->getPayUrl`
 
 
 #### Create payout
@@ -166,7 +169,10 @@ or you can create request with array
 ```php
 $requestArray = [
     'id' => 'transaction_id', // optional
-    'amount' => [/*...*/], // array of 'currency' and 'amount' in minor value
+    'amount' => [
+                    'amount' => 1000, //1000 = 10 RUB
+                    'currency' => 'RUB' //name of currency
+    ], // array of 'currency' and 'amount' in minor value
     'projectCode' => 'ProjectCode', // or 'projectId' => projectId
     'pan' => 'payout card number', // i.e. 4111111111111111
     'description' => 'my payout description',  //optional
