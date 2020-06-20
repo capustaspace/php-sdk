@@ -77,11 +77,19 @@ or you can create request with array
 ```php
 $requestArray = [
     'id' => "YOUR_TRANSACTION_ID", // your ID of transaction, optional.
-    'amount' => [/*...*/], //array of 'amount' in minor value and 'currency'.
     'description' => "description", //optoinal
+    'amount' => [
+                    'amount' => 1000, //1000 = 10 RUB
+                    'currency' => 'RUB' //name of currency
+                ], //array of 'amount' in minor value and 'currency'.
     'projectCode' => "code", //required, code can be taken from my.capusta.space
     'custom' => [/*...*/], // optional array key=>value, with length < 255. 
-    'sender' => [/*...*/], //optional array of 'name', 'phone', 'email', 'comment'.
+    'sender' => [
+                    'name' => 'Vasya',
+                    'phone' => '+79991234567',
+                    'email' => 'vasya@vasya.ru',
+                    'comment' => 'this is my order'
+                ], //optional array of 'name', 'phone', 'email', 'comment'.
 ];
 
 try {
@@ -90,9 +98,13 @@ try {
 } catch (\Exception $e) {
     // ...
 }
+
+if ($createPaymentResponse->getStatus()=='CREATED'){
+// redirect user to $createPaymentResponse->getPayUrl();
+}
 ```
-if you have got `$createPaymentResponse->status == 'CREATED'`, 
-then you need to redirect user to URL: `$createPaymentResponse->payUrl`
+if you have got `$createPaymentResponse->getStatus() == 'CREATED'`, 
+then you need to redirect user to URL: `$createPaymentResponse->getPayUrl()`
 
 #### Create bill
 
