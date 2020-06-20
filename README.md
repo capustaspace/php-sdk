@@ -143,9 +143,13 @@ try {
 } catch (\Exception $e) {
     // ...
 }
+
+if ($createBillResponse->getStatus()=='CREATED'){
+    // redirect user to $createBillResponse->getPayUrl();
+}
 ```
-If you have got `$createBillResponse->getStatus == 'CREATED'`, 
-then you need to redirect user to URL: `$createBillResponse->getPayUrl`
+If you have got `$createBillResponse->getStatus() == 'CREATED'`, 
+then you need to redirect user to URL: `$createBillResponse->getPayUrl()`
 
 
 #### Create payout
