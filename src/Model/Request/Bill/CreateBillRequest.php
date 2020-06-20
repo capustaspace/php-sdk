@@ -28,7 +28,7 @@ class CreateBillRequest extends AbstractRequest
     private $description;
 
     /**
-     * @var array|null
+     * @var string|null
      */
     private $contentUrl;
 
