@@ -210,7 +210,7 @@ try {
 or you can create request with array
 ```php
 $requestArray = [
-    'transaction-id' => 'transaction_id', // here is the id of the transaction
+    'transaction_id' => 'YOUR_TRANSACTION_ID', // here is the id of the transaction
 ];
 
 try {
