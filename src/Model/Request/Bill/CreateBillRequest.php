@@ -42,6 +42,10 @@ class CreateBillRequest extends AbstractRequest
      */
     private $custom;
 
+    /**
+     * @var \DateTime
+     */
+    private $expire;
 
     /**
      * @return string|null
@@ -161,6 +165,22 @@ class CreateBillRequest extends AbstractRequest
         return $this;
     }
 
+    /**
+     * @return \DateTime
+     */
+    public function getExpire()
+    {
+        return $this->expire;
+    }
+
+    /**
+     * @param \DateTime $expire
+     */
+    public function setExpire($expire)
+    {
+        $this->expire = $expire;
+    }
+
 
 
     /**
@@ -183,7 +203,8 @@ class CreateBillRequest extends AbstractRequest
             'id' => self::TYPE_STRING,
             'description' => self::TYPE_STRING,
             'custom' => self::TYPE_ARRAY,
-            'contentUrl' => self::TYPE_STRING
+            'contentUrl' => self::TYPE_STRING,
+            'expire' => self::TYPE_DATE
         ];
     }
 }

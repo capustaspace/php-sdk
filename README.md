@@ -84,6 +84,7 @@ $requestArray = [
                 ], //array of 'amount' in minor value and 'currency'.
     'projectCode' => "code", //required, code can be taken from my.capusta.space
     'custom' => [/*...*/], // optional array key=>value, with length < 255. 
+    'expire' => '2020-07-10T13:53:22+0300', // optional expiration datetime
     'sender' => [
                     'name' => 'Vasya',
                     'phone' => '+79991234567',
@@ -133,7 +134,8 @@ $requestArray = [
     ], //array of 'amount' in minor value and 'currency'
     'description' => "description", //optional description of bill
     'projectCode' => "code", //your project code
-    'custom' => [/*...*/] // optional array of key=>value structure and length < 255.
+    'custom' => [/*...*/], // optional array of key=>value structure and length < 255.
+    'expire' => '2020-07-10T13:53:22+0300' // optional expiration datetime
 ];
 // ^^^^^^^^ the same fields like in payment method.
  
@@ -145,7 +147,7 @@ try {
 }
 
 if ($createBillResponse->getStatus()=='CREATED'){
-    // redirect user to $createBillResponse->getPayUrl();
+        // redirect user to $createBillResponse->getPayUrl();
 }
 ```
 If you have got `$createBillResponse->getStatus() == 'CREATED'`, 

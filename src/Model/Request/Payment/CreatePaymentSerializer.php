@@ -20,6 +20,7 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
         $sender = $paymentRequest->getSender();
         $description = $paymentRequest->getDescription();
         $custom = $paymentRequest->getCustom();
+        $expire = $paymentRequest->getExpire();
         $contentUrl = $paymentRequest->getContentUrl();
         $projectCode = $paymentRequest->getProjectcode();
         $serializedCreatePayment = [];
@@ -50,6 +51,10 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
 
         if($custom) {
             $serializedCreatePayment['custom'] = (object)$custom;
+        }
+
+        if($expire) {
+            $serializedCreatePayment['expire'] = (object)$expire;
         }
 
         return $serializedCreatePayment;
