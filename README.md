@@ -84,7 +84,7 @@ $requestArray = [
                 ], //array of 'amount' in minor value and 'currency'.
     'projectCode' => "code", //required, code can be taken from my.capusta.space
     'custom' => [/*...*/], // optional array key=>value, with length < 255. 
-    'expire' => '2020-07-10T13:53:22+0300', // optional expiration datetime
+    'expire' => new DateTime('now + 1 hour'), // optional expiration datetime object (for example payment can be paid only in 1 hour)
     'sender' => [
                     'name' => 'Vasya',
                     'phone' => '+79991234567',
@@ -135,7 +135,7 @@ $requestArray = [
     'description' => "description", //optional description of bill
     'projectCode' => "code", //your project code
     'custom' => [/*...*/], // optional array of key=>value structure and length < 255.
-    'expire' => '2020-07-10T13:53:22+0300' // optional expiration datetime
+    'expire' => new DateTime('now + 1 day'), // optional expiration datetime (for example bill can be paid within 1 day)
 ];
 // ^^^^^^^^ the same fields like in payment method.
  
