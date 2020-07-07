@@ -42,6 +42,11 @@ class CreateBillResponse extends AbstractResponse
     /**
      * @var \DateTime
      */
+    private $expire;
+
+    /**
+     * @var \DateTime
+     */
     private $updated_at;
 
     /**
@@ -164,6 +169,7 @@ class CreateBillResponse extends AbstractResponse
             'sender' => SenderRequestItem::class,
             'contentUrl' => RestorableInterface::TYPE_STRING,
             'updated_at' => RestorableInterface::TYPE_DATE,
+            'expire' => RestorableInterface::TYPE_DATE,
         ];
     }
 

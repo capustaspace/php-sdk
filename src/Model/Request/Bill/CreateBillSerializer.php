@@ -5,6 +5,7 @@ namespace Capusta\SDK\Model\Request\Bill;
 
 
 use Capusta\SDK\Model\Request\AbstractRequestSerializer;
+use DateTime;
 
 class CreateBillSerializer extends AbstractRequestSerializer
 {
@@ -44,7 +45,7 @@ class CreateBillSerializer extends AbstractRequestSerializer
             $serializedCreateBill['custom'] = (object)$custom;
         }
         if ($expire) {
-            $serializedCreateBill['expire'] = (object)$expire;
+            $serializedCreateBill['expire'] =  $expire->format(DateTime::ATOM);
         }
 
         if ($contentUrl) {

@@ -5,6 +5,7 @@ namespace Capusta\SDK\Model\Request\Payment;
 
 
 use Capusta\SDK\Model\Request\AbstractRequestSerializer;
+use DateTime;
 
 class CreatePaymentSerializer extends AbstractRequestSerializer
 {
@@ -38,6 +39,10 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
             $serializedCreatePayment['description'] = $description;
         }
 
+        if ($contentUrl) {
+            $serializedCreatePayment['contentUrl'] = $contentUrl;
+        }
+
         $serializedCreatePayment['projectCode'] = $projectCode;
 
         if ($sender) {
@@ -54,7 +59,7 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
         }
 
         if($expire) {
-            $serializedCreatePayment['expire'] = (object)$expire;
+            $serializedCreatePayment['expire'] =  $expire->format(DateTime::ATOM);
         }
 
         return $serializedCreatePayment;
