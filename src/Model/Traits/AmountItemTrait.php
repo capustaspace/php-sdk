@@ -11,7 +11,7 @@ trait AmountItemTrait
     private $currency;
 
     /**
-     * @var integer
+     * @var integer|null
      */
     private $amount;
 
@@ -40,7 +40,7 @@ trait AmountItemTrait
      */
     public function getAmount()
     {
-        return $this->amount;
+        return $this->amount ? $this->amount:null;
     }
 
     /**

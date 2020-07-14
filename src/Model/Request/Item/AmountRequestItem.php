@@ -19,7 +19,6 @@ class AmountRequestItem extends AbstractRequestItem
     {
         return [
             'currency' => self::TYPE_STRING,
-            'amount' => self::TYPE_INTEGER,
         ];
     }
 
@@ -29,6 +28,7 @@ class AmountRequestItem extends AbstractRequestItem
     public function getOptionalFields()
     {
         return [
+            'amount' => self::TYPE_INTEGER,
         ];
     }
 }

@@ -32,8 +32,11 @@ class CreateBillSerializer extends AbstractRequestSerializer
 
         $serializedCreateBill['amount'] = [
             'currency' => $amount->getCurrency(),
-            'amount' => $amount->getAmount(),
         ];
+        $amount = $amount->getAmount();
+        if ($amount !== null) {
+            $serializedCreateBill['amount']['amount'] = $amount;
+        }
 
         if ($description) {
             $serializedCreateBill['description'] = $description;

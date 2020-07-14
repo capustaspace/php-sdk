@@ -33,8 +33,12 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
 
         $serializedCreatePayment['amount'] = [
             'currency' => $amount->getCurrency(),
-            'amount' => $amount->getAmount(),
         ];
+        $amount = $amount->getAmount();
+        if ($amount !== null) {
+            $serializedCreatePayment['amount']['amount'] = $amount;
+        }
+
         if ($description) {
             $serializedCreatePayment['description'] = $description;
         }

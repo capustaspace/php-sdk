@@ -79,7 +79,7 @@ $requestArray = [
     'id' => "YOUR_TRANSACTION_ID", // your ID of transaction, optional.
     'description' => "description", //optoinal
     'amount' => [
-                    'amount' => 1000, //1000 = 10 RUB
+                    'amount' => 1000, //1000 = 10 RUB, *** OPTIONAL *** (if you want to get bill with any amount within limits)
                     'currency' => 'RUB' //name of currency
                 ], //array of 'amount' in minor value and 'currency'.
     'projectCode' => "code", //required, code can be taken from my.capusta.space
@@ -129,7 +129,7 @@ or you can create request with array
 $requestArray = [
     'id' => "YOUR_BILL_ID", //optional
     'amount' => [
-                    'amount' => 1000, //1000 = 10 RUB
+                    'amount' => 1000, //1000 = 10 RUB, *** OPTIONAL *** (if you want to get payment with any amount within limits)
                     'currency' => 'RUB' //name of currency
     ], //array of 'amount' in minor value and 'currency'
     'description' => "description", //optional description of bill
