@@ -177,8 +177,9 @@ class Notification
      */
     protected function checkRequest()
     {
-        $auth  = $_SERVER["HTTP_AUTHORIZATION"];
-        if (!isset($auth) || $auth == '') {
+        $auth  = isset($_SERVER["HTTP_AUTHORIZATION"]) ? $_SERVER["HTTP_AUTHORIZATION"]: false;
+        if (!$auth) {
+            if ($this->isIpAllowed()) return true; // if its working from proxy ip check required.
             throw new NotificationSecurityException('No Authorization Bearer received');
         }
         $correctAuth = 'Bearer '.$this->merchantEmail.':'.$this->token;
