@@ -20,8 +20,10 @@ Optionally
 - [`guzzlehttp/guzzle`](https://github.com/guzzle/guzzle) for use guzzle instead of cURL.
 
 ## Composer
+First, you need to install Composer to your system.
+(https://getcomposer.org/doc/00-intro.md#installation-linux-unix-macos)
 
-You can install the lib via [Composer](http://getcomposer.org/). Run the following command:
+After Composer is installed to your system you need to run the following command:
 
 ```bash
 composer require capusta/php-sdk:@dev
