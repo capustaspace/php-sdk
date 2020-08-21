@@ -9,7 +9,7 @@ use Capusta\SDK\Transport\AbstractApiTransport;
 
 class CreateProjectTransport extends AbstractRequestTransport
 {
-    const PATH = 'partner/project';
+    const PATH = 'v1/partner/project';
 
     /**
      * @inheritDoc

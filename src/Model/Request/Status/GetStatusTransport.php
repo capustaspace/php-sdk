@@ -9,14 +9,14 @@ use Capusta\SDK\Transport\AbstractApiTransport;
 
 class GetStatusTransport extends AbstractRequestTransport
 {
-    const PATH = 'partner/status';
-
+    const PATH = '/partner/status';
+    protected $version = 'v1';
     /**
      * @inheritDoc
      */
     public function getPath()
     {
-        return self::PATH;
+       return $this->version.self::PATH;
     }
 
     /**
@@ -26,4 +26,6 @@ class GetStatusTransport extends AbstractRequestTransport
     {
         return AbstractApiTransport::METHOD_GET;
     }
+
+
 }

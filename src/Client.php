@@ -62,7 +62,7 @@ use Capusta\SDK\Actions\ObjectRecursiveValidator;
 
 class Client
 {
-    const VERSION = '1.3.0';
+    const VERSION = '1.6.0';
 
     /** @var AbstractApiTransport */
     private $apiTransport;
@@ -162,6 +162,28 @@ class Client
         ObjectRecursiveValidator::validate($status);
         $statusSerializer = new GetStatusSerializer($status);
         $statusTransport = new GetStatusTransport($statusSerializer);
+        return $this->execute($statusTransport, GetStatusResponse::class);
+    }
+
+    /**
+     * @param GetStatusRequest|AbstractRequest|array $status
+     * @return GetStatusResponse|AbstractResponse
+     *
+     * @throws TransportException
+     * @throws JsonParseException
+     * @throws ResponseException
+     * @throws ResponseParseException
+     * @throws RequestParseException
+     */
+    public function getBillStatus($status)
+    {
+        if (is_array($status)) {
+            $status = RequestCreator::create(GetStatusRequest::class, $status);
+        }
+        ObjectRecursiveValidator::validate($status);
+        $statusSerializer = new GetStatusSerializer($status);
+        $statusTransport = new GetStatusTransport($statusSerializer);
+        $statusTransport->setVersion('v2');
         return $this->execute($statusTransport, GetStatusResponse::class);
     }
 

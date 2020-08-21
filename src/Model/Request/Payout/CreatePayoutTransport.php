@@ -9,7 +9,7 @@ use Capusta\SDK\Transport\AbstractApiTransport;
 
 class CreatePayoutTransport extends AbstractRequestTransport
 {
-    const PATH = 'partner/payout';
+    const PATH = 'v1/partner/payout';
 
     /**
      * @inheritDoc

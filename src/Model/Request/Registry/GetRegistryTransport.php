@@ -9,7 +9,7 @@ use Capusta\SDK\Transport\AbstractApiTransport;
 
 class GetRegistryTransport extends AbstractRequestTransport
 {
-    const PATH = 'partner/registry';
+    const PATH = 'v1/partner/registry';
 
     /**
      * @inheritDoc
