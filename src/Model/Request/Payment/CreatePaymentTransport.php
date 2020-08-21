@@ -4,9 +4,26 @@
 namespace Capusta\SDK\Model\Request\Payment;
 
 
-use Capusta\SDK\Model\Request\Bill\CreateBillTransport;
+use Capusta\SDK\Model\Request\AbstractRequestTransport;
+use Capusta\SDK\Transport\AbstractApiTransport;
 
-class CreatePaymentTransport extends CreateBillTransport
+class CreatePaymentTransport extends AbstractRequestTransport
 {
-    const PATH = 'partner/payment';
+    const PATH = 'v1/partner/payment';
+
+    /**
+     * @inheritDoc
+     */
+    public function getPath()
+    {
+        return self::PATH;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMethod()
+    {
+        return AbstractApiTransport::METHOD_POST;
+    }
 }

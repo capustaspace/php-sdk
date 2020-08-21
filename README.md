@@ -194,7 +194,7 @@
     }
     ```
     
-    #### Getting payment/bill status
+    #### Getting payment status
     
     Creating request with object
     ```php
@@ -225,6 +225,38 @@
     }
     ```
     
+     #### Getting BILL status 
+     (with array of successfull payments inside of 'transactions' property)
+        
+        Creating request with object
+        ```php
+        // Create a request object
+        $getBillStatusRequest = new Capusta\SDK\Model\Request\Status\GetStatusRequest();
+        
+        // Set up $getStatusRequest with required params
+        
+        try {
+            /** @var Capusta\SDK\Model\Response\Status\getStatusResponse $getStatusResponse */
+            $getStatusResponse = $client->getBillStatus($getBillStatusRequest);
+        } catch (\Exception $e) {
+            // ...
+        }
+        ```
+        
+        or you can create request with array
+        ```php
+        $requestArray = [
+            'transaction_id' => 'YOUR_TRANSACTION_ID', // here is the id of the transaction
+        ];
+        
+        try {
+            /** @var Capusta\SDK\Model\Response\Status\getStatusResponse $getStatusResponse */
+            $getStatusResponse = $client->getBillStatus($requestArray);
+        } catch (\Exception $e) {
+            // ...
+        }
+        ```
+        
     #### Getting payments registry
     
     Array of successfull payments. 

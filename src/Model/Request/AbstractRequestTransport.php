@@ -12,6 +12,11 @@ abstract class AbstractRequestTransport
     protected $serializer;
 
     /**
+     * @var boolean|string
+     */
+    protected $version;
+
+    /**
      * AbstractRequestTransport constructor.
      *
      * @param AbstractRequestSerializer $serializer
@@ -32,6 +37,13 @@ abstract class AbstractRequestTransport
     public function getMethod()
     {
         return AbstractApiTransport::METHOD_POST;
+    }
+
+    /**
+     * @param $version string
+     */
+    public function setVersion($version) {
+        if ($version) $this->version=$version;
     }
 
     /**

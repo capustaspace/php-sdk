@@ -76,6 +76,11 @@ class CreatePaymentResponse extends AbstractResponse
     private $sender;
 
     /**
+     * @var string|null
+     */
+    private $custom;
+
+    /**
      * @return string
      */
     public function getId()
@@ -89,6 +94,14 @@ class CreatePaymentResponse extends AbstractResponse
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustom()
+    {
+        return $this->custom;
     }
 
     /**
@@ -170,6 +183,7 @@ class CreatePaymentResponse extends AbstractResponse
             'contentUrl' => RestorableInterface::TYPE_STRING,
             'updated_at' => RestorableInterface::TYPE_DATE,
             'expire' => RestorableInterface::TYPE_DATE,
+            'custom'=> AbstractResponse::TYPE_STRING,
         ];
     }
 

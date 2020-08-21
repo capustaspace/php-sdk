@@ -9,7 +9,7 @@ use Capusta\SDK\Transport\AbstractApiTransport;
 
 class CreateBillTransport extends AbstractRequestTransport
 {
-    const PATH = 'partner/bill';
+    const PATH = 'v1/partner/bill';
 
     /**
      * @inheritDoc
