@@ -257,6 +257,8 @@
         }
         ```
         
+        If you want to get array of successfull transactions of bill or payment 
+        you need to call method $getStatusResponse->getTransactions(). 
     #### Getting payments registry
     
     Array of successfull payments. 
