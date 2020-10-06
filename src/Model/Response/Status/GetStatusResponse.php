@@ -30,6 +30,19 @@ class GetStatusResponse extends CreatePaymentResponse
 
 
     /**
+     * @var string
+     */
+    public $parent_id;
+
+    /**
+     * @return string|null
+     */
+    public function getParent_id()
+    {
+        return $this->getParent_id();
+    }
+
+    /**
      * @return array|null
      */
     public function getTransactions()
@@ -51,6 +64,7 @@ class GetStatusResponse extends CreatePaymentResponse
             'sender' => SenderRequestItem::class,
             'multiBill' => AbstractResponse::TYPE_BOOLEAN,
             'billPaymentEnabled' => AbstractResponse::TYPE_BOOLEAN,
+            'parent_id' => AbstractResponse::TYPE_STRING,
             'created_at' => RestorableInterface::TYPE_DATE
         ];
     }
