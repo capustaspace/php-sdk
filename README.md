@@ -93,6 +93,8 @@
                         'email' => 'vasya@vasya.ru',
                         'comment' => 'this is my order'
                     ], //optional array of 'name', 'phone', 'email', 'comment'.
+        'successUrl' => "https://my-site.com/payment/success", // optional redirection url after success payment.
+        'failUrl' => "https://my-site.com/payment/fail" // optional redirection url after failed payment                    
     ];
     
     try {
@@ -138,6 +140,8 @@
         'projectCode' => "code", //your project code
         'custom' => [/*...*/], // optional array of key=>value structure and length < 255.
         'expire' => new DateTime('now + 1 day'), // optional expiration datetime (for example bill can be paid within 1 day)
+        'successUrl' => "https://my-site.com/payment/success", // optional redirection url after success payment.
+        'failUrl' => "https://my-site.com/payment/fail" // optional redirection url after failed payment                    
     ];
     // ^^^^^^^^ the same fields like in payment method.
      

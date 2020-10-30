@@ -28,11 +28,20 @@ class CreatePaymentResponse extends AbstractResponse
      */
     private $amount;
 
-
     /**
      * @var string|null
      */
     private $description;
+
+    /**
+     * @var string|null
+     */
+    private $successUrl;
+
+    /**
+     * @var string|null
+     */
+    private $failUrl;
 
     /**
      * @var \DateTime
@@ -120,6 +129,21 @@ class CreatePaymentResponse extends AbstractResponse
         return $this->description;
     }
 
+    /**
+     * @return  string|null
+     */
+    public function getSuccessUrl()
+    {
+        return $this->successUrl;
+    }
+
+    /**
+     * @return  string|null
+     */
+    public function getFailUrl()
+    {
+        return $this->failUrl;
+    }
 
     /**
      * @return integer|null
@@ -184,6 +208,8 @@ class CreatePaymentResponse extends AbstractResponse
             'updated_at' => RestorableInterface::TYPE_DATE,
             'expire' => RestorableInterface::TYPE_DATE,
             'custom'=> AbstractResponse::TYPE_STRING,
+            'successUrl' => AbstractResponse::TYPE_STRING,
+            'failUrl' => AbstractResponse::TYPE_STRING
         ];
     }
 

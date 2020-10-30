@@ -19,7 +19,9 @@ class CreateBillSerializer extends AbstractRequestSerializer
         $id = $billRequest->getId();
         $amount = $billRequest->getAmount();
         $description = $billRequest->getDescription();
-        $projectCode = $billRequest->getProjectcode();
+        $projectCode = $billRequest->getProjectCode();
+        $successUrl = $billRequest->getSuccessUrl();
+        $failUrl = $billRequest->getFailUrl();
         $contentUrl = $billRequest->getContentUrl();
         $custom = $billRequest->getCustom();
         $expire = $billRequest->getExpire();
@@ -43,7 +45,12 @@ class CreateBillSerializer extends AbstractRequestSerializer
         }
 
         $serializedCreateBill['projectCode'] = $projectCode;
-
+        if ($successUrl) {
+            $serializedCreateBill['successUrl'] = $successUrl;
+        }
+        if ($failUrl) {
+            $serializedCreateBill['failUrl'] = $failUrl;
+        }
         if ($custom) {
             $serializedCreateBill['custom'] = (object)$custom;
         }

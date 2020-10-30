@@ -55,6 +55,16 @@ class CreateBillResponse extends AbstractResponse
     private $projectCode;
 
     /**
+     * @var string|null
+     */
+    private $successUrl;
+
+    /**
+     * @var string|null
+     */
+    private $failUrl;
+
+    /**
      * @var integer|null
      */
     private $projectId;
@@ -125,6 +135,22 @@ class CreateBillResponse extends AbstractResponse
     }
 
     /**
+     * @return string
+     */
+    public function getSuccessUrl()
+    {
+        return $this->successUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFailUrl()
+    {
+        return $this->failUrl;
+    }
+
+    /**
      * @return |DateTime
      */
     public function getCreated_at()
@@ -170,6 +196,8 @@ class CreateBillResponse extends AbstractResponse
             'contentUrl' => RestorableInterface::TYPE_STRING,
             'updated_at' => RestorableInterface::TYPE_DATE,
             'expire' => RestorableInterface::TYPE_DATE,
+            'successUrl' => RestorableInterface::TYPE_STRING,
+            'failUrl' => RestorableInterface::TYPE_STRING,
         ];
     }
 

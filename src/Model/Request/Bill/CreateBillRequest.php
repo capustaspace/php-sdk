@@ -38,6 +38,16 @@ class CreateBillRequest extends AbstractRequest
     private $projectCode;
 
     /**
+     * @var string
+     */
+    private $successUrl;
+
+    /**
+     * @var string
+     */
+    private $failUrl;
+
+    /**
      * @var array|null
      */
     private $custom;
@@ -130,7 +140,7 @@ class CreateBillRequest extends AbstractRequest
     /**
      * @return string
      */
-    public function getProjectcode()
+    public function getProjectCode()
     {
         return $this->projectCode;
     }
@@ -140,9 +150,47 @@ class CreateBillRequest extends AbstractRequest
      *
      * @return $this
      */
-    public function setProjectcode($projectcode)
+    public function setProjectCode($projectcode)
     {
         $this->projectCode = $projectcode;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSuccessUrl()
+    {
+        return $this->successUrl;
+    }
+
+    /**
+     * @param string $successUrl
+     *
+     * @return $this
+     */
+    public function setSuccessUrl($successurl)
+    {
+        $this->successUrl = $successurl;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFailUrl()
+    {
+        return $this->failUrl;
+    }
+
+    /**
+     * @param string $failurl
+     *
+     * @return $this
+     */
+    public function setFailUrl($failurl)
+    {
+        $this->failUrl = $failurl;
         return $this;
     }
 
@@ -204,7 +252,9 @@ class CreateBillRequest extends AbstractRequest
             'description' => self::TYPE_STRING,
             'custom' => self::TYPE_ARRAY,
             'contentUrl' => self::TYPE_STRING,
-            'expire' => self::TYPE_DATE
+            'expire' => self::TYPE_DATE,
+            'successUrl' => self::TYPE_STRING,
+            'failUrl' => self::TYPE_STRING
         ];
     }
 }
