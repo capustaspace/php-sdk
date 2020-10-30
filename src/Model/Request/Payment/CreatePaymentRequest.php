@@ -14,6 +14,16 @@ class CreatePaymentRequest extends CreateBillRequest
     private $sender;
 
     /**
+     * @var string
+     */
+    private $successUrl;
+
+    /**
+     * @var string
+     */
+    private $failUrl;
+
+    /**
      * @return SenderRequestItem
      */
     public function getSender()
@@ -34,6 +44,24 @@ class CreatePaymentRequest extends CreateBillRequest
     }
 
     /**
+     * @return string
+     */
+    public function getSuccessurl()
+    {
+        return $this->successUrl;
+    }
+
+    /**
+     * @param string $successUrl
+     * @return $this|CreatePaymentRequest
+     */
+    public function setSuccessurl($successUrl)
+    {
+        $this->successUrl = $successUrl;
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getOptionalFields()
@@ -44,7 +72,9 @@ class CreatePaymentRequest extends CreateBillRequest
             'sender' => SenderRequestItem::class,
             'contentUrl' => self::TYPE_STRING,
             'custom'    => self::TYPE_ARRAY,
-            'expire' => self::TYPE_DATE
+            'expire' => self::TYPE_DATE,
+            'successUrl' => self::TYPE_STRING,
+            'failUrl' => self::TYPE_STRING
         ];
     }
 }
