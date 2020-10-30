@@ -140,7 +140,7 @@ class CreateBillRequest extends AbstractRequest
     /**
      * @return string
      */
-    public function getProjectcode()
+    public function getProjectCode()
     {
         return $this->projectCode;
     }
@@ -150,7 +150,7 @@ class CreateBillRequest extends AbstractRequest
      *
      * @return $this
      */
-    public function setProjectcode($projectcode)
+    public function setProjectCode($projectcode)
     {
         $this->projectCode = $projectcode;
         return $this;
@@ -159,7 +159,7 @@ class CreateBillRequest extends AbstractRequest
     /**
      * @return string
      */
-    public function getSuccessurl()
+    public function getSuccessUrl()
     {
         return $this->successUrl;
     }
@@ -169,28 +169,28 @@ class CreateBillRequest extends AbstractRequest
      *
      * @return $this
      */
-    public function setSuccessurl($successUrl)
+    public function setSuccessUrl($successurl)
     {
-        $this->successUrl = $successUrl;
+        $this->successUrl = $successurl;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getFailurl()
+    public function getFailUrl()
     {
         return $this->failUrl;
     }
 
     /**
-     * @param string $failUrl
+     * @param string $failurl
      *
      * @return $this
      */
-    public function setFailurl($failUrl)
+    public function setFailUrl($failurl)
     {
-        $this->failUrl = $failUrl;
+        $this->failUrl = $failurl;
         return $this;
     }
 

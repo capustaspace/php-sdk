@@ -19,13 +19,13 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
         $id = $paymentRequest->getId();
         $amount = $paymentRequest->getAmount();
         $sender = $paymentRequest->getSender();
-        $successUrl = $paymentRequest->getSuccessurl();
-        $failUrl = $paymentRequest->getFailurl();
+        $successUrl = $paymentRequest->getSuccessUrl();
+        $failUrl = $paymentRequest->getFailUrl();
         $description = $paymentRequest->getDescription();
         $custom = $paymentRequest->getCustom();
         $expire = $paymentRequest->getExpire();
         $contentUrl = $paymentRequest->getContentUrl();
-        $projectCode = $paymentRequest->getProjectcode();
+        $projectCode = $paymentRequest->getProjectCode();
         $serializedCreatePayment = [];
 
 
@@ -45,13 +45,8 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
             $serializedCreatePayment['description'] = $description;
         }
 
-        if ($successUrl) {
-            $serializedCreatePayment['successUrl'] = $successUrl;
-        }
-
-        if ($failUrl) {
-            $serializedCreatePayment['failUrl'] = $failUrl;
-        }
+        $serializedCreatePayment['successUrl'] = $successUrl;
+        $serializedCreatePayment['failUrl'] = $failUrl;
 
         if ($contentUrl) {
             $serializedCreatePayment['contentUrl'] = $contentUrl;

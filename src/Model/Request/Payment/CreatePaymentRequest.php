@@ -44,24 +44,6 @@ class CreatePaymentRequest extends CreateBillRequest
     }
 
     /**
-     * @return string
-     */
-    public function getSuccessurl()
-    {
-        return $this->successUrl;
-    }
-
-    /**
-     * @param string $successUrl
-     * @return $this|CreatePaymentRequest
-     */
-    public function setSuccessurl($successUrl)
-    {
-        $this->successUrl = $successUrl;
-        return $this;
-    }
-
-    /**
      * @inheritDoc
      */
     public function getOptionalFields()
