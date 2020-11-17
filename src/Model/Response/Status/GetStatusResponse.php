@@ -80,7 +80,8 @@ class GetStatusResponse extends CreatePaymentResponse
             'description' => AbstractResponse::TYPE_STRING,
             'contentUrl' => RestorableInterface::TYPE_STRING,
             'updated_at' => RestorableInterface::TYPE_DATE,
-            'transactions' => AbstractResponse::TYPE_ARRAY
+            'transactions' => AbstractResponse::TYPE_ARRAY,
+            'failureDescription' => AbstractResponse::TYPE_STRING
         ];
     }
 }

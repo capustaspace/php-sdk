@@ -62,7 +62,7 @@ use Capusta\SDK\Actions\ObjectRecursiveValidator;
 
 class Client
 {
-    const VERSION = '1.8.0';
+    const VERSION = '1.9.0';
 
     /** @var AbstractApiTransport */
     private $apiTransport;

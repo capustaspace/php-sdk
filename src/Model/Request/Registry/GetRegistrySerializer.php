@@ -18,7 +18,8 @@ class GetRegistrySerializer extends AbstractRequestSerializer
         $data = [
             'from' => $getRegistryRequest->getFrom()->format('c'),
             'to' => $getRegistryRequest->getTo()->format('c'),
-            'projectCode' => $getRegistryRequest->getProjectCode()
+            'projectCode' => $getRegistryRequest->getProjectCode(),
+            'withFailed' => $getRegistryRequest->getWithFailed()
         ];
 
         return $data;

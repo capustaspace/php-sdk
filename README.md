@@ -219,6 +219,7 @@
     ```php
     $requestArray = [
         'transaction_id' => 'YOUR_TRANSACTION_ID', // here is the id of the transaction
+        'withFailed' => TRUE, // Optional, Boolean. If TRUE, you can receive details of failed transaction
     ];
     
     try {
@@ -251,8 +252,8 @@
         ```php
         $requestArray = [
             'transaction_id' => 'YOUR_TRANSACTION_ID', // here is the id of the transaction
-        ];
-        
+            'withFailed' => TRUE, // OPTIONAL BOOLEAN. If you want to get all transactions even failed with details of failure - you need to set it to TRUE, otherwise FALSE.
+        ]       
         try {
             /** @var Capusta\SDK\Model\Response\Status\getStatusResponse $getStatusResponse */
             $getStatusResponse = $client->getBillStatus($requestArray);
@@ -282,6 +283,7 @@
         'projectCode' => 'projectCode', // here is the id of the transaction
         'from' => '2020-04-30T08:19:47.000-04:00', // start date
         'to' => '2020-05-01T08:19:47.000-04:00',
+        'withFailed' => TRUE, // If you want to get all (even failed) transactions.
     ];
     
     try {
