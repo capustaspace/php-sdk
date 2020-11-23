@@ -16,6 +16,11 @@ class GetStatusRequest extends AbstractRequest
     private $transaction_id;
 
     /**
+     * @var boolean
+     */
+    private $withFailed;
+
+    /**
      * @return string
      */
     public function getTransaction_id()
@@ -36,6 +41,25 @@ class GetStatusRequest extends AbstractRequest
     }
 
     /**
+     * @return bool
+     */
+    public function getWithFailed()
+    {
+        return $this->withFailed;
+    }
+
+    /**
+     * @param $withFailed boolean
+     * @return $this
+     */
+    public function setWithFaiiled($withFailed)
+    {
+        $this->withFailed = $withFailed;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRequiredFields()
@@ -51,6 +75,7 @@ class GetStatusRequest extends AbstractRequest
     public function getOptionalFields()
     {
         return [
+            'withFailed' => self::TYPE_BOOLEAN,
         ];
     }
 }

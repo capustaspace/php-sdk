@@ -62,7 +62,7 @@ use Capusta\SDK\Actions\ObjectRecursiveValidator;
 
 class Client
 {
-    const VERSION = '1.8.0';
+    const VERSION = '1.9.0';
 
     /** @var AbstractApiTransport */
     private $apiTransport;
@@ -134,7 +134,7 @@ class Client
         if ($response->getStatusCode() === 200) {
             $body = $response->getBody();
             $data = $body->getContents();
-            if (is_string($data)) {
+                if (is_string($data)) {
                 $payments = json_decode($data, true);
                 return $payments;
             }

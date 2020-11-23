@@ -5,6 +5,7 @@ namespace Capusta\SDK\Model\Request\Registry;
 
 use Capusta\SDK\Model\Request\AbstractRequest;
 use Capusta\SDK\Model\Traits\RecursiveRestoreTrait;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class GetRegistryRequest extends AbstractRequest
 {
@@ -24,6 +25,11 @@ class GetRegistryRequest extends AbstractRequest
      * @var \DateTime
      */
     private $to;
+
+    /**
+     * @var Boolean
+     */
+    private $withFailed;
 
 
 
@@ -86,6 +92,25 @@ class GetRegistryRequest extends AbstractRequest
     }
 
     /**
+     * @return Boolean
+     */
+    public function getWithFailed()
+    {
+        return $this->withFailed;
+    }
+
+    /**
+     * @param $withFailed Boolean
+     * @return $this
+     */
+    public function setWithFailed(Boolean $withFailed)
+    {
+        $this->withFailed = $withFailed;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRequiredFields()
@@ -103,6 +128,7 @@ class GetRegistryRequest extends AbstractRequest
     public function getOptionalFields()
     {
         return [
+            'withFailed' => self::TYPE_BOOLEAN
         ];
     }
 }

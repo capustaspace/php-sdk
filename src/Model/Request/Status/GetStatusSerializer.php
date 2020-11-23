@@ -16,6 +16,7 @@ class GetStatusSerializer extends AbstractRequestSerializer
         /** @var GetStatusRequest $statusRequest */
         $statusRequest = $this->request;
         $serializedCreateStatus['transaction-id'] = $statusRequest->getTransaction_id();
+        $serializedCreateStatus['withFailed'] = $statusRequest->getWithFailed();
         return $serializedCreateStatus;
     }
 }
