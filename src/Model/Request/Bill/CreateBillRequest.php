@@ -58,6 +58,11 @@ class CreateBillRequest extends AbstractRequest
     private $expire;
 
     /**
+     * @var bool
+     */
+    private $test;
+
+    /**
      * @return string|null
      */
     public function getId()
@@ -229,7 +234,21 @@ class CreateBillRequest extends AbstractRequest
         $this->expire = $expire;
     }
 
+    /**
+     * @return bool
+     */
+    public function getTest()
+    {
+        return $this->test;
+    }
 
+    /**
+     * @param bool $test
+     */
+    public function setTest($test)
+    {
+        $this->test = $test;
+    }
 
     /**
      * @inheritDoc
@@ -253,6 +272,7 @@ class CreateBillRequest extends AbstractRequest
             'custom' => self::TYPE_ARRAY,
             'contentUrl' => self::TYPE_STRING,
             'expire' => self::TYPE_DATE,
+            'test' => self::TYPE_BOOLEAN,
             'successUrl' => self::TYPE_STRING,
             'failUrl' => self::TYPE_STRING
         ];

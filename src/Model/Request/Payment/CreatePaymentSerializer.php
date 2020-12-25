@@ -24,6 +24,7 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
         $description = $paymentRequest->getDescription();
         $custom = $paymentRequest->getCustom();
         $expire = $paymentRequest->getExpire();
+        $test = $paymentRequest->getTest();
         $contentUrl = $paymentRequest->getContentUrl();
         $projectCode = $paymentRequest->getProjectCode();
         $serializedCreatePayment = [];
@@ -71,6 +72,9 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
             $serializedCreatePayment['expire'] =  $expire->format(DateTime::ATOM);
         }
 
+        if($test) {
+            $serializedCreatePayment['test'] =  $test;
+        }
         return $serializedCreatePayment;
     }
 }
