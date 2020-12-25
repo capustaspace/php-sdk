@@ -25,6 +25,7 @@ class CreateBillSerializer extends AbstractRequestSerializer
         $contentUrl = $billRequest->getContentUrl();
         $custom = $billRequest->getCustom();
         $expire = $billRequest->getExpire();
+        $test = $billRequest->getTest();
         $serializedCreateBill = [];
 
 
@@ -56,6 +57,10 @@ class CreateBillSerializer extends AbstractRequestSerializer
         }
         if ($expire) {
             $serializedCreateBill['expire'] =  $expire->format(DateTime::ATOM);
+        }
+
+        if ($test) {
+            $serializedCreateBill['test'] =  $test;
         }
 
         if ($contentUrl) {

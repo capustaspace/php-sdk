@@ -55,6 +55,7 @@ class CreatePaymentRequest extends CreateBillRequest
             'contentUrl' => self::TYPE_STRING,
             'custom'    => self::TYPE_ARRAY,
             'expire' => self::TYPE_DATE,
+            'test' => self::TYPE_BOOLEAN,
             'successUrl' => self::TYPE_STRING,
             'failUrl' => self::TYPE_STRING
         ];
