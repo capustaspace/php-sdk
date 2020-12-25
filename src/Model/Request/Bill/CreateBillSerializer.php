@@ -18,6 +18,7 @@ class CreateBillSerializer extends AbstractRequestSerializer
         $billRequest = $this->request;
         $id = $billRequest->getId();
         $amount = $billRequest->getAmount();
+        $sender = $billRequest->getSender();
         $description = $billRequest->getDescription();
         $projectCode = $billRequest->getProjectCode();
         $successUrl = $billRequest->getSuccessUrl();
@@ -39,6 +40,17 @@ class CreateBillSerializer extends AbstractRequestSerializer
         $amount = $amount->getAmount();
         if ($amount !== null) {
             $serializedCreateBill['amount']['amount'] = $amount;
+        }
+
+        if ($sender) {
+            $serializedCreateBill['sender'] = [
+                'name' => $sender->getName(),
+                'email' => $sender->getEmail(),
+                'comment' => $sender->getComment(),
+                'phone' => $sender->getPhone(),
+                'address' => $sender->getAddress(),
+                'message' => $sender->getMessage(),
+            ];
         }
 
         if ($description) {

@@ -207,8 +207,8 @@ class Client
         ObjectRecursiveValidator::validate($bill);
         $billSerializer = new CreateBillSerializer($bill);
         $billTransport = new CreateBillTransport($billSerializer);
-
-        return $this->execute($billTransport, CreateBillResponse::class);
+        $resp =  $this->execute($billTransport, CreateBillResponse::class);
+        return $resp;
     }
 
 
@@ -286,7 +286,6 @@ class Client
         }
 
         $responseData = json_decode($response->getBody(), true);
-
         if (!$responseData) {
             throw new JsonParseException('Decode response error', json_last_error());
         }

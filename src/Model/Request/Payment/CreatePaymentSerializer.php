@@ -61,6 +61,8 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
                 'email' => $sender->getEmail(),
                 'comment' => $sender->getComment(),
                 'phone' => $sender->getPhone(),
+                'address' => $sender->getAddress(),
+                'message' => $sender->getMessage(),
             ];
         }
 
