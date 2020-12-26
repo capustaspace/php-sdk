@@ -230,7 +230,7 @@
     }
     ```
     
-     #### Getting BILL status 
+     #### Getting BILL status (status v2)
      (with array of successfull payments inside of 'transactions' property)
         
         Creating request with object
