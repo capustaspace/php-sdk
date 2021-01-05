@@ -123,7 +123,6 @@ class Client
         ObjectRecursiveValidator::validate($registry);
         $paymentsReportSerializer = new GetRegistrySerializer($registry);
         $paymentsReportTransport = new GetRegistryTransport($paymentsReportSerializer);
-
         $response = $this->apiTransport->send(
             $paymentsReportTransport->getPath(),
             $paymentsReportTransport->getMethod(),

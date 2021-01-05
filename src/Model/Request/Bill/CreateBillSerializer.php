@@ -65,7 +65,7 @@ class CreateBillSerializer extends AbstractRequestSerializer
             $serializedCreateBill['failUrl'] = $failUrl;
         }
         if ($custom) {
-            $serializedCreateBill['custom'] = (object)$custom;
+            $serializedCreateBill['custom'] = (array)$custom;
         }
         if ($expire) {
             $serializedCreateBill['expire'] =  $expire->format(DateTime::ATOM);
