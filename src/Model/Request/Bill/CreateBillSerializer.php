@@ -18,6 +18,7 @@ class CreateBillSerializer extends AbstractRequestSerializer
         $billRequest = $this->request;
         $id = $billRequest->getId();
         $amount = $billRequest->getAmount();
+        $sender = $billRequest->getSender();
         $description = $billRequest->getDescription();
         $projectCode = $billRequest->getProjectCode();
         $successUrl = $billRequest->getSuccessUrl();
@@ -41,6 +42,17 @@ class CreateBillSerializer extends AbstractRequestSerializer
             $serializedCreateBill['amount']['amount'] = $amount;
         }
 
+        if ($sender) {
+            $serializedCreateBill['sender'] = [
+                'name' => $sender->getName(),
+                'email' => $sender->getEmail(),
+                'comment' => $sender->getComment(),
+                'phone' => $sender->getPhone(),
+                'address' => $sender->getAddress(),
+                'message' => $sender->getMessage(),
+            ];
+        }
+
         if ($description) {
             $serializedCreateBill['description'] = $description;
         }
@@ -53,7 +65,7 @@ class CreateBillSerializer extends AbstractRequestSerializer
             $serializedCreateBill['failUrl'] = $failUrl;
         }
         if ($custom) {
-            $serializedCreateBill['custom'] = (object)$custom;
+            $serializedCreateBill['custom'] = (array)$custom;
         }
         if ($expire) {
             $serializedCreateBill['expire'] =  $expire->format(DateTime::ATOM);

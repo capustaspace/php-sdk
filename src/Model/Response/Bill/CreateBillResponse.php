@@ -86,6 +86,11 @@ class CreateBillResponse extends AbstractResponse
     private $sender;
 
     /**
+     * @var array|null
+     */
+    private $custom;
+
+    /**
      * @return string
      */
     public function getId()
@@ -99,6 +104,22 @@ class CreateBillResponse extends AbstractResponse
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * @return SenderRequestItem|null
+     */
+    public function getSender()
+    {
+        return $this->sender;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getCustom()
+    {
+        return $this->custom;
     }
 
     /**
@@ -193,6 +214,7 @@ class CreateBillResponse extends AbstractResponse
             'description' => AbstractResponse::TYPE_STRING,
             'projectId' => AbstractResponse::TYPE_INTEGER,
             'sender' => SenderRequestItem::class,
+            'custom' => AbstractResponse::TYPE_ARRAY,
             'contentUrl' => RestorableInterface::TYPE_STRING,
             'updated_at' => RestorableInterface::TYPE_DATE,
             'expire' => RestorableInterface::TYPE_DATE,

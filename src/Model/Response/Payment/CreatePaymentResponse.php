@@ -106,11 +106,19 @@ class CreatePaymentResponse extends AbstractResponse
     }
 
     /**
-     * @return string|null
+     * @return array|null
      */
     public function getCustom()
     {
         return $this->custom;
+    }
+
+    /**
+     * @return SenderRequestItem|null
+     */
+    public function getSender()
+    {
+        return $this->sender;
     }
 
     /**
@@ -207,7 +215,7 @@ class CreatePaymentResponse extends AbstractResponse
             'contentUrl' => RestorableInterface::TYPE_STRING,
             'updated_at' => RestorableInterface::TYPE_DATE,
             'expire' => RestorableInterface::TYPE_DATE,
-            'custom'=> AbstractResponse::TYPE_STRING,
+            'custom'=> AbstractResponse::TYPE_ARRAY,
             'successUrl' => AbstractResponse::TYPE_STRING,
             'failUrl' => AbstractResponse::TYPE_STRING
         ];
