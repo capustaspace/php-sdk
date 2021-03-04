@@ -6,6 +6,7 @@ namespace Capusta\SDK\Model\Request\Bill;
 use Capusta\SDK\Model\Request\AbstractRequest;
 use Capusta\SDK\Model\Request\Item\AmountRequestItem;
 use Capusta\SDK\Model\Request\Item\SenderRequestItem;
+use Capusta\SDK\Model\Request\Item\SubscriptionRequestItem;
 use Capusta\SDK\Model\Traits\RecursiveRestoreTrait;
 
 class CreateBillRequest extends AbstractRequest
@@ -21,6 +22,11 @@ class CreateBillRequest extends AbstractRequest
      * @var AmountRequestItem
      */
     private $amount;
+
+    /**
+     * @var SubscriptionRequestItem
+     */
+    private $subscription;
 
     /**
      * @var SenderRequestItem
@@ -123,6 +129,26 @@ class CreateBillRequest extends AbstractRequest
     public function setAmount($amount)
     {
         $this->amount = $amount;
+
+        return $this;
+    }
+
+    /**
+     * @return SubscriptionRequestItem
+     */
+    public function getSubscription()
+    {
+        return $this->subscription;
+    }
+
+    /**
+     * @param SubscriptionRequestItem $subscription
+     *
+     * @return self
+     */
+    public function setSubscription($subscription)
+    {
+        $this->subscription = $subscription;
 
         return $this;
     }
@@ -293,9 +319,9 @@ class CreateBillRequest extends AbstractRequest
     {
         return [
             'id' => self::TYPE_STRING,
-            'description' => self::TYPE_STRING,
             'custom' => self::TYPE_ARRAY,
             'sender' => SenderRequestItem::class,
+            'subscription' => SubscriptionRequestItem::class,
             'contentUrl' => self::TYPE_STRING,
             'expire' => self::TYPE_DATE,
             'test' => self::TYPE_BOOLEAN,

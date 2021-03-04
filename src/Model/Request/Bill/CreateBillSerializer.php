@@ -18,6 +18,7 @@ class CreateBillSerializer extends AbstractRequestSerializer
         $billRequest = $this->request;
         $id = $billRequest->getId();
         $amount = $billRequest->getAmount();
+        $subscription = $billRequest->getSubscription();
         $sender = $billRequest->getSender();
         $description = $billRequest->getDescription();
         $projectCode = $billRequest->getProjectCode();
@@ -55,6 +56,14 @@ class CreateBillSerializer extends AbstractRequestSerializer
 
         if ($description) {
             $serializedCreateBill['description'] = $description;
+        }
+
+        if ($subscription) {
+            $per = $subscription->getPer();
+            if ($per) {
+                $serializedCreateBill['subscription']['per'] = $per;
+            }
+            $serializedCreateBill['subscription']['oneTimePayment'] = $subscription->getOnetimepayment() ? true : false;
         }
 
         $serializedCreateBill['projectCode'] = $projectCode;

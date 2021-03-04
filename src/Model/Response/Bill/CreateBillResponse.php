@@ -5,9 +5,12 @@ namespace Capusta\SDK\Model\Response\Bill;
 
 use Capusta\SDK\Model\Interfaces\RestorableInterface;
 use Capusta\SDK\Model\Request\Item\SenderRequestItem;
+use Capusta\SDK\Model\Request\Item\SubscriptionRequestItem;
 use Capusta\SDK\Model\Response\AbstractResponse;
 use Capusta\SDK\Model\Response\Item\AmountResponseItem;
+use Capusta\SDK\Model\Response\Item\SubscriptionResponseItem;
 use Capusta\SDK\Model\Traits\RecursiveRestoreTrait;
+use Capusta\SDK\Model\Traits\SubscriptionItemTrait;
 
 class CreateBillResponse extends AbstractResponse
 {
@@ -27,6 +30,11 @@ class CreateBillResponse extends AbstractResponse
      * @var AmountResponseItem
      */
     private $amount;
+
+    /**
+     * @var SubscriptionResponseItem
+     */
+    private $subscription;
 
 
     /**
@@ -131,6 +139,14 @@ class CreateBillResponse extends AbstractResponse
     }
 
     /**
+     * @return SubscriptionResponseItem
+     */
+    public function getSubscription()
+    {
+        return $this->subscription;
+    }
+
+    /**
      * @return  string|null
      */
     public function getDescription()
@@ -215,6 +231,7 @@ class CreateBillResponse extends AbstractResponse
             'projectId' => AbstractResponse::TYPE_INTEGER,
             'sender' => SenderRequestItem::class,
             'custom' => AbstractResponse::TYPE_ARRAY,
+            'subscription' => SubscriptionRequestItem::class,
             'contentUrl' => RestorableInterface::TYPE_STRING,
             'updated_at' => RestorableInterface::TYPE_DATE,
             'expire' => RestorableInterface::TYPE_DATE,
