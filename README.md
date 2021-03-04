@@ -135,6 +135,11 @@ $requestArray = [
                     'amount' => 1000, //1000 = 10 RUB, *** OPTIONAL *** (if you want to get payment with any amount within limits)
                     'currency' => 'RUB' //name of currency
     ], //array of 'amount' in minor value and 'currency'
+    'subscription' => [
+        'per' => 'WEEKLY', // period, optional. can be  'DAILY', 'MONTHLY', 'WEEKLY, 'SELECTIVELY'.
+        // if per is absent it creates simple the recurring bill without any period. 
+        'oneTimePayment' => false, //boolean. if false the bill can be paid several times.
+    ], //optional settings to create recurring payment.
     'description' => "description", //optional description of bill
     'projectCode' => "code", //your project code
     'custom' => [/*...*/], // optional array of key=>value structure and length < 255.
