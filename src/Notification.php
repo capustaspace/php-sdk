@@ -97,6 +97,7 @@ class Notification
             throw $e;
         }
         $this->request = $request;
+        var_dump($request);
         return $this->request;
     }
 
@@ -173,26 +174,47 @@ class Notification
     }
 
     /**
+     * @param bool $byHeader;
+     * if TRUE - check only headers.
+     * if FALSE - check request signature, not headers.
+     *
+     * @return bool
      * @throws NotificationSecurityException
      */
-    protected function checkRequest()
+    protected function checkRequest($byHeader=true)
     {
-        $auth  = isset($_SERVER["HTTP_AUTHORIZATION"]) ? $_SERVER["HTTP_AUTHORIZATION"]: false;
-        if (!$auth) {
-            if ($this->isIpAllowed()) return true; // if its working from proxy ip check required.
-            throw new NotificationSecurityException('No Authorization Bearer received');
-        }
-        $correctAuth = 'Bearer '.$this->merchantEmail.':'.$this->token;
-        if ($auth !== $correctAuth) {
-            throw new NotificationSecurityException('Incorrect Authorization Bearer received ');
-        }
+        if ($byHeader) { //checking authorization header
+            $auth = isset($_SERVER["HTTP_AUTHORIZATION"]) ? $_SERVER["HTTP_AUTHORIZATION"] : false;
+            if (!$auth) {
+                if ($this->isIpAllowed()) return true; // if its working from proxy ip check required.
+                throw new NotificationSecurityException('No Authorization Bearer received');
+            }
+            $correctAuth = 'Bearer ' . $this->merchantEmail . ':' . $this->token;
+            if ($auth !== $correctAuth) {
+                throw new NotificationSecurityException('Incorrect Authorization Bearer received ');
+            }
 
-        if (strtolower($_SERVER['REQUEST_METHOD']) !== 'post') {
-            throw new NotificationSecurityException('Only post requests are expected');
-        }
+            if (strtolower($_SERVER['REQUEST_METHOD']) !== 'post') {
+                throw new NotificationSecurityException('Only post requests are expected');
+            }
 
-        if (!$this->isIpAllowed()) {
-            throw new NotificationSecurityException('Remote ip is not allowed');
+            if (!$this->isIpAllowed()) {
+                throw new NotificationSecurityException('Remote ip is not allowed');
+            }
+        } else {
+            //checking signature.
+            $signature = $this->getSignature();
+        }
+    }
+
+    /**
+     * @return bool|string
+     */
+    protected function getSignature()
+    {
+        ksort($this->request);
+        foreach ($this->request as $field) {
+
         }
     }
 
