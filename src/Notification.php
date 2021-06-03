@@ -213,10 +213,16 @@ class Notification
      */
     protected function getSignature()
     {
-        ksort($this->request);
-        foreach ($this->request as $field) {
+        if (is_array($this->request) && !empty($this->request)) {
+            ksort($this->request);
+            foreach ($this->request as $field) {
+
+            }
+            var_dump($this->request);
 
         }
+        throw new IncorrectBodyRequestException('Request body is incorrect or empty');
+
     }
 
     /**
