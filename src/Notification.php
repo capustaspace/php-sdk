@@ -218,8 +218,8 @@ class Notification
             foreach ($this->request as $field) {
 
             }
-            var_dump($this->request);
-
+            error_log(var_export($this->request, true));
+            
         }
         throw new IncorrectBodyRequestException('Request body is incorrect or empty');
 
