@@ -97,7 +97,7 @@ class Notification
             throw $e;
         }
         $this->request = $request;
-        var_dump($request);
+        error_log(var_export($request));
         return $this->request;
     }
 
