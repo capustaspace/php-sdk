@@ -86,10 +86,10 @@ class Notification
      * @throws IncorrectBodyRequestException
      * @throws \Exception
      */
-    public function process($autoResponse = true)
+    public function process($autoResponse = true, $byHeader=true)
     {
         try {
-            $request = $this->getRequest();
+            $request = $this->getRequest($byHeader);
             $autoResponse && $this->successResponse();
         } catch (\Exception $e) {
             $autoResponse && $this->errorResponse($e->getMessage());
@@ -97,6 +97,7 @@ class Notification
             throw $e;
         }
         $this->request = $request;
+        error_log(var_export($request));
         return $this->request;
     }
 
@@ -112,20 +113,21 @@ class Notification
 
 
     /**
-     * @return NotificationRequest
+     * @param bool $byHeader | TRUE = auth headers required
      *
+     * @return NotificationRequest
      * @throws NotificationSecurityException
      * @throws NotificationParseException
      * @throws IncorrectBodyRequestException
      * @throws EmptyBearerException
      */
-    protected function getRequest()
+    protected function getRequest($byHeader = true)
     {
         if (empty($this->merchantEmail) || empty($this->token)) {
             throw new EmptyBearerException('Please provide the merchantEmail & token');
         }
 
-        $this->checkRequest();
+        $this->checkRequest($byHeader);
 
         return $this->getRequestFromBody();
     }
@@ -173,27 +175,54 @@ class Notification
     }
 
     /**
+     * @param bool $byHeader;
+     * if TRUE - check only headers.
+     * if FALSE - check request signature, not headers.
+     *
+     * @return bool
      * @throws NotificationSecurityException
      */
-    protected function checkRequest()
+    protected function checkRequest($byHeader=true)
     {
-        $auth  = isset($_SERVER["HTTP_AUTHORIZATION"]) ? $_SERVER["HTTP_AUTHORIZATION"]: false;
-        if (!$auth) {
-            if ($this->isIpAllowed()) return true; // if its working from proxy ip check required.
-            throw new NotificationSecurityException('No Authorization Bearer received');
-        }
-        $correctAuth = 'Bearer '.$this->merchantEmail.':'.$this->token;
-        if ($auth !== $correctAuth) {
-            throw new NotificationSecurityException('Incorrect Authorization Bearer received ');
-        }
+        if ($byHeader) { //checking authorization header
+            $auth = isset($_SERVER["HTTP_AUTHORIZATION"]) ? $_SERVER["HTTP_AUTHORIZATION"] : false;
+            if (!$auth) {
+                if ($this->isIpAllowed()) return true; // if its working from proxy ip check required.
+                throw new NotificationSecurityException('No Authorization Bearer received');
+            }
+            $correctAuth = 'Bearer ' . $this->merchantEmail . ':' . $this->token;
+            if ($auth !== $correctAuth) {
+                throw new NotificationSecurityException('Incorrect Authorization Bearer received ');
+            }
 
-        if (strtolower($_SERVER['REQUEST_METHOD']) !== 'post') {
-            throw new NotificationSecurityException('Only post requests are expected');
-        }
+            if (strtolower($_SERVER['REQUEST_METHOD']) !== 'post') {
+                throw new NotificationSecurityException('Only post requests are expected');
+            }
 
-        if (!$this->isIpAllowed()) {
-            throw new NotificationSecurityException('Remote ip is not allowed');
+            if (!$this->isIpAllowed()) {
+                throw new NotificationSecurityException('Remote ip is not allowed');
+            }
+        } else {
+            //checking signature.
+            $signature = $this->getSignature();
         }
+    }
+
+    /**
+     * @return bool|string
+     */
+    protected function getSignature()
+    {
+        if (is_array($this->request) && !empty($this->request)) {
+            ksort($this->request);
+            foreach ($this->request as $field) {
+
+            }
+            error_log(var_export($this->request, true));
+            
+        }
+        throw new IncorrectBodyRequestException('Request body is incorrect or empty');
+
     }
 
     /**
