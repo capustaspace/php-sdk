@@ -1,14 +1,14 @@
 # Capusta.Space PHP SDK
 
 ### Documentation: https://dev.capusta.space/
-    
+
 ## Requirements
-PHP 5.5 and later.
-    
+PHP 7.2 and later.
+
 ## Dependencies
-    
+
 The bindings require the following extensions in order to work properly:
-    
+
 - [`curl`](https://secure.php.net/manual/en/book.curl.php), although you can use your own non-cURL client if you prefer.
 - [`json`](https://secure.php.net/manual/en/book.json.php)
 - [`mbstring`](https://secure.php.net/manual/en/book.mbstring.php) (Multibyte String)
@@ -46,7 +46,7 @@ We recommend using the GuzzleHttp Client
 $guzzleClient = new GuzzleHttp\Client();
 $transport = new Capusta\SDK\Transport\GuzzleApiTransport($guzzleClient);
 $client = new Capusta\SDK\Client($transport);
-$client->setAuth('merchantEmail', 'token');
+$client->   setAuth('merchantEmail', 'token');
 ```
 
 All requests are processed in similar steps:
@@ -107,7 +107,7 @@ if ($createPaymentResponse->getStatus()=='CREATED'){
 }
 ```
 
-if you have got `$createPaymentResponse->getStatus() == 'CREATED'`, 
+if you have got `$createPaymentResponse->getStatus() == 'CREATED'`,
 then you need to redirect user to URL: `$createPaymentResponse->getPayUrl()`
 
 #### Create bill
@@ -155,7 +155,7 @@ if ($createBillResponse->getStatus()=='CREATED'){
     // redirect user to $createBillResponse->getPayUrl();
 }
 ```
-If you have got `$createBillResponse->getStatus() == 'CREATED'`, 
+If you have got `$createBillResponse->getStatus() == 'CREATED'`,
 then you need to redirect user to URL: `$createBillResponse->getPayUrl()`
 
 
@@ -211,7 +211,7 @@ try {
 // ...
 }
 ```
-    
+
 or you can create request with array
 ```php
 $requestArray = [
@@ -228,8 +228,8 @@ try {
 ```
 
 #### Getting BILL status (status v2)
- (with array of successfull payments inside of 'transactions' property)
-    
+(with array of successfull payments inside of 'transactions' property)
+
 ##### Creating request with object
 ```php
 // Create a request object
@@ -258,14 +258,14 @@ try {
     // ...
 }
 ```
-        
-If you want to get array of successfull transactions of bill or payment 
-you need to call method $getStatusResponse->getTransactions(). 
+
+If you want to get array of successfull transactions of bill or payment
+you need to call method $getStatusResponse->getTransactions().
 
 #### Getting payments registry
 
-Array of successfull payments. 
-* NOTE: Difference between from and to dates not be more than 24 hours. 
+Array of successfull payments.
+* NOTE: Difference between from and to dates not be more than 24 hours.
 ```php
 $registry = new Capusta\SDK\Model\Request\Registry\GetRegistryRequest();
 $registry->setFrom(new \DateTime('1 day ago'))
@@ -291,8 +291,8 @@ try {
     // ...
 }
 ```
-    
-#### Create project 
+
+#### Create project
 (this method is disabled by default, you need to ask support to switch this on)
 
 Creating request with object
@@ -309,7 +309,7 @@ try {
     // ...
 }
 ```
-    
+
 or you can create request with array
 ```php
 $requestArray = [
@@ -327,9 +327,9 @@ try {
     // ...
 }
 ```
-returned object $createProjectResponse contains properties within the 'status' property. 
+returned object $createProjectResponse contains properties within the 'status' property.
 If 'status' is "NEW" - the project is successfully created.
-    
+
 #### Exceptions
 
 - `Capusta\SDK\Exception\TransportException` - throws in the case of an api transport error. For example, when authorization data is not provided.
@@ -337,7 +337,7 @@ If 'status' is "NEW" - the project is successfully created.
 - `Capusta\SDK\Exception\ServerResponse\ResponseException` - 4xx and 5xx server errors.
 - `Capusta\SDK\Exception\Response\ResponseParseException` - create response errors.
 - `Capusta\SDK\Exception\Request\RequestParseException` - create request errors.
-    
+
 ### Processing notification from server
 
 This code is responsible for processing the payment result.
@@ -350,9 +350,9 @@ $notification->setAuth('merchantEmail', 'token');
 $responseNotification = $notification->process();
 ```
 $responseNotification contains object with notification parameters.
-    
+
 You can use manual response to server:
-    
+
 ```php
 $notification->process(false);
 
@@ -361,17 +361,17 @@ $notification->successResponse();
 // if error
 $notification->errorResponse('Error message');
 ```
-    
+
 If you use a proxy server, you can skip the IP check
 
 ```php
 $notification->setSkipIpCheck();
 ```
-    
+
 ## Custom Api Transport
-    
+
 You can create your own api transport by extending `Capusta\SDK\Transport\AbstractApiTransport`
-    
+
 ```php
 class MyApiTransport extends \Capusta\SDK\Transport\AbstractApiTransport {
     protected function sendRequest(Psr7\Request $request) {
