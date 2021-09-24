@@ -179,8 +179,19 @@ class Notification
     {
         $auth  = isset($_SERVER["HTTP_AUTHORIZATION"]) ? $_SERVER["HTTP_AUTHORIZATION"]: false;
         if (!$auth) {
-            if ($this->isIpAllowed()) return true; // if its working from proxy ip check required.
-            throw new NotificationSecurityException('No Authorization Bearer received');
+            $request = $this->getRequestFromBody();
+            if (isset($request['signature'])) {
+                // checking signature of notification
+                if (!$this->checkSignature($request))  {
+                    throw new NotificationSecurityException('Incorrect signature received');;
+                } else {
+                    $this->skipIpCheck = true;
+                }
+            } else {
+                if ($this->isIpAllowed()) return true; // if its working from proxy ip check required.
+                throw new NotificationSecurityException('No Authorization Bearer received');
+            }
+
         }
         $correctAuth = 'Bearer '.$this->merchantEmail.':'.$this->token;
         if ($auth !== $correctAuth) {
@@ -194,6 +205,21 @@ class Notification
         if (!$this->isIpAllowed()) {
             throw new NotificationSecurityException('Remote ip is not allowed');
         }
+    }
+
+    /**
+     * @param $request
+     * @return bool
+     */
+    public function checkSignature($request): bool
+    {
+        $signature = $request['signature'];
+        $flatted = $this->flatten($request);
+        $sorted = ksort($flatted);
+
+        $string = $this->stringify($sorted) . $this->merchantEmail.$this->token;
+        $resultSignature = md5($string);
+        return  $signature == $resultSignature;
     }
 
     /**
@@ -220,6 +246,48 @@ class Notification
 
     public function isIpCheckSkipped() {
         return $this->skipIpCheck;
+    }
+
+    /**
+     * converts multi-fivensional array to assoc array
+     * @param $array
+     * @param string|null $mkey
+     * @return array
+     */
+    protected function  flatten($array, string $mkey = null): array
+    {
+        $return = [];
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $return = array_merge($return, flatten($value, $key));
+            } else {
+                if (is_null($mkey)) {
+                    $rkey = $key;
+                } else {
+                    $rkey = $mkey . '_' . $key;
+                }
+                if (!is_null($value) && $rkey !== 'signature') {
+                    $return[$rkey] = $value;
+                }
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * Converts array to string
+     * @param $array
+     * @return string
+     */
+    protected function stringify(array $array): string
+    {
+        $return = '';
+        foreach ($array as $key => $value) {
+            $value = is_bool($value) ? ($value ? 'true' : 'false') : $value;
+            $return .= $key . $value;
+        }
+        return $return;
     }
 
 }
