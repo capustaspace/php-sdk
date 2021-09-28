@@ -186,7 +186,7 @@ class Notification
         $auth  = isset($_SERVER["HTTP_AUTHORIZATION"]) ? $_SERVER["HTTP_AUTHORIZATION"]: false;
         if ($signatureExists) {
             // checking signature of notification
-            if (!$this->checkSignature($request, $this->merchantEmail, $this->token))  {
+            if (!$this->checkSignature((array)$request, $this->merchantEmail, $this->token))  {
                 throw new NotificationSecurityException('Incorrect signature received');;
             } else {
                 return true;
