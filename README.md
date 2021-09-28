@@ -46,7 +46,7 @@ We recommend using the GuzzleHttp Client
 $guzzleClient = new GuzzleHttp\Client();
 $transport = new Capusta\SDK\Transport\GuzzleApiTransport($guzzleClient);
 $client = new Capusta\SDK\Client($transport);
-$client->setAuth('merchantEmail', 'token');
+$client->   setAuth('merchantEmail', 'token');
 ```
 
 All requests are processed in similar steps:

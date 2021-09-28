@@ -86,10 +86,10 @@ class Notification
      * @throws IncorrectBodyRequestException
      * @throws \Exception
      */
-    public function process($autoResponse = true, $byHeader=true)
+    public function process($autoResponse = true)
     {
         try {
-            $request = $this->getRequest($byHeader);
+            $request = $this->getRequest();
             $autoResponse && $this->successResponse();
         } catch (\Exception $e) {
             $autoResponse && $this->errorResponse($e->getMessage());
@@ -97,7 +97,6 @@ class Notification
             throw $e;
         }
         $this->request = $request;
-        error_log(var_export($request));
         return $this->request;
     }
 
@@ -113,21 +112,20 @@ class Notification
 
 
     /**
-     * @param bool $byHeader | TRUE = auth headers required
-     *
      * @return NotificationRequest
+     *
      * @throws NotificationSecurityException
      * @throws NotificationParseException
      * @throws IncorrectBodyRequestException
      * @throws EmptyBearerException
      */
-    protected function getRequest($byHeader = true)
+    protected function getRequest()
     {
         if (empty($this->merchantEmail) || empty($this->token)) {
             throw new EmptyBearerException('Please provide the merchantEmail & token');
         }
 
-        $this->checkRequest($byHeader);
+        $this->checkRequest();
 
         return $this->getRequestFromBody();
     }
@@ -175,54 +173,56 @@ class Notification
     }
 
     /**
-     * @param bool $byHeader;
-     * if TRUE - check only headers.
-     * if FALSE - check request signature, not headers.
-     *
-     * @return bool
      * @throws NotificationSecurityException
      */
-    protected function checkRequest($byHeader=true)
+    protected function checkRequest()
     {
-        if ($byHeader) { //checking authorization header
-            $auth = isset($_SERVER["HTTP_AUTHORIZATION"]) ? $_SERVER["HTTP_AUTHORIZATION"] : false;
-            if (!$auth) {
-                if ($this->isIpAllowed()) return true; // if its working from proxy ip check required.
+        if (strtolower($_SERVER['REQUEST_METHOD']) !== 'post') {
+            throw new NotificationSecurityException('Only post requests are expected');
+        }
+
+        $request = $this->getRequestFromBody();
+        $signatureExists = $request->getSignature();
+        $auth  = isset($_SERVER["HTTP_AUTHORIZATION"]) ? $_SERVER["HTTP_AUTHORIZATION"]: false;
+        if ($signatureExists) {
+            // checking signature of notification
+            if (!$this->checkSignature($request, $this->merchantEmail, $this->token))  {
+                throw new NotificationSecurityException('Incorrect signature received');;
+            } else {
+                return true;
+            }
+        } else {
+            //check auth headers
+            if (!$auth)
+            {
                 throw new NotificationSecurityException('No Authorization Bearer received');
             }
-            $correctAuth = 'Bearer ' . $this->merchantEmail . ':' . $this->token;
+            $correctAuth = 'Bearer '.$this->merchantEmail.':'.$this->token;
             if ($auth !== $correctAuth) {
                 throw new NotificationSecurityException('Incorrect Authorization Bearer received ');
             }
-
-            if (strtolower($_SERVER['REQUEST_METHOD']) !== 'post') {
-                throw new NotificationSecurityException('Only post requests are expected');
-            }
-
-            if (!$this->isIpAllowed()) {
-                throw new NotificationSecurityException('Remote ip is not allowed');
-            }
-        } else {
-            //checking signature.
-            $signature = $this->getSignature();
+            return  true;
         }
     }
 
     /**
-     * @return bool|string
+     * @param $request array|object
+     * @param $merchantEmail string
+     * @param $token string
+     * @return bool
      */
-    protected function getSignature()
+    public function checkSignature($request, $merchantEmail, $token): bool
     {
-        if (is_array($this->request) && !empty($this->request)) {
-            ksort($this->request);
-            foreach ($this->request as $field) {
+        if (is_object($request))
+            $signature = $request->signature;
+        else
+            $signature = $request['signature'];
+        $flatted = $this->flatten($request);
+        $sorted = ksort($flatted);
 
-            }
-            error_log(var_export($this->request, true));
-            
-        }
-        throw new IncorrectBodyRequestException('Request body is incorrect or empty');
-
+        $string = $this->stringify($sorted) . $merchantEmail.$token;
+        $resultSignature = md5($string);
+        return  $signature == $resultSignature;
     }
 
     /**
@@ -249,6 +249,48 @@ class Notification
 
     public function isIpCheckSkipped() {
         return $this->skipIpCheck;
+    }
+
+    /**
+     * converts multi-fivensional array to assoc array
+     * @param $array
+     * @param string|null $mkey
+     * @return array
+     */
+    protected function  flatten($array, string $mkey = null): array
+    {
+        $return = [];
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $return = array_merge($return, flatten($value, $key));
+            } else {
+                if (is_null($mkey)) {
+                    $rkey = $key;
+                } else {
+                    $rkey = $mkey . '_' . $key;
+                }
+                if (!is_null($value) && $rkey !== 'signature') {
+                    $return[$rkey] = $value;
+                }
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * Converts array to string
+     * @param $array
+     * @return string
+     */
+    protected function stringify(array $array): string
+    {
+        $return = '';
+        foreach ($array as $key => $value) {
+            $value = is_bool($value) ? ($value ? 'true' : 'false') : $value;
+            $return .= $key . $value;
+        }
+        return $return;
     }
 
 }
