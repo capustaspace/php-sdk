@@ -217,6 +217,7 @@ class Notification
         if (is_object($request)) {
             $request = $this->object_to_array($request);
         }
+        throw new NotificationSecurityException(json_encode($request));
         $signature = $request['signature'];
 
         $flatted = $this->flatten($request);
