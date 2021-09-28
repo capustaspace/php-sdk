@@ -177,47 +177,47 @@ class Notification
      */
     protected function checkRequest()
     {
-        $auth  = isset($_SERVER["HTTP_AUTHORIZATION"]) ? $_SERVER["HTTP_AUTHORIZATION"]: false;
-        if (!$auth) {
-            $request = $this->getRequestFromBody();
-            if (isset($request['signature'])) {
-                // checking signature of notification
-                if (!$this->checkSignature($request))  {
-                    throw new NotificationSecurityException('Incorrect signature received');;
-                } else {
-                    $this->skipIpCheck = true;
-                }
-            } else {
-                if ($this->isIpAllowed()) return true; // if its working from proxy ip check required.
-                throw new NotificationSecurityException('No Authorization Bearer received');
-            }
-
-        }
-        $correctAuth = 'Bearer '.$this->merchantEmail.':'.$this->token;
-        if ($auth !== $correctAuth) {
-            throw new NotificationSecurityException('Incorrect Authorization Bearer received ');
-        }
-
         if (strtolower($_SERVER['REQUEST_METHOD']) !== 'post') {
             throw new NotificationSecurityException('Only post requests are expected');
         }
 
-        if (!$this->isIpAllowed()) {
-            throw new NotificationSecurityException('Remote ip is not allowed');
+        $request = $this->getRequestFromBody();
+        $signatureExists = isset($request['signature']);
+        $auth  = isset($_SERVER["HTTP_AUTHORIZATION"]) ? $_SERVER["HTTP_AUTHORIZATION"]: false;
+        if ($signatureExists) {
+            // checking signature of notification
+            if (!$this->checkSignature($request, $this->merchantEmail, $this->token))  {
+                throw new NotificationSecurityException('Incorrect signature received');;
+            } else {
+                return true;
+            }
+        } else {
+            //check auth headers
+            if (!$auth)
+            {
+                throw new NotificationSecurityException('No Authorization Bearer received');
+            }
+            $correctAuth = 'Bearer '.$this->merchantEmail.':'.$this->token;
+            if ($auth !== $correctAuth) {
+                throw new NotificationSecurityException('Incorrect Authorization Bearer received ');
+            }
+            return  true;
         }
     }
 
     /**
-     * @param $request
+     * @param $request array
+     * @param $merchantEmail string
+     * @param $token string
      * @return bool
      */
-    public function checkSignature($request): bool
+    public function checkSignature($request, $merchantEmail, $token): bool
     {
         $signature = $request['signature'];
         $flatted = $this->flatten($request);
         $sorted = ksort($flatted);
 
-        $string = $this->stringify($sorted) . $this->merchantEmail.$this->token;
+        $string = $this->stringify($sorted) . $merchantEmail.$token;
         $resultSignature = md5($string);
         return  $signature == $resultSignature;
     }
