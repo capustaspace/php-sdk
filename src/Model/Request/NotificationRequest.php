@@ -60,7 +60,7 @@ class NotificationRequest extends AbstractRequest
     {
         $this->signature = $signature;
     }
-    
+
     /**
      * @param string $transactionId
      */
@@ -125,6 +125,7 @@ class NotificationRequest extends AbstractRequest
             'transactionId' => AbstractRequest::TYPE_STRING,
             'amount' => AmountResponseItem::class,
             'status' => AbstractRequest::TYPE_STRING,
+            'signature' => AbstractRequest::TYPE_STRING,
         ];
     }
 
