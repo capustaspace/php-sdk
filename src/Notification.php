@@ -186,7 +186,7 @@ class Notification
         $auth  = isset($_SERVER["HTTP_AUTHORIZATION"]) ? $_SERVER["HTTP_AUTHORIZATION"]: false;
         if ($signatureExists) {
             // checking signature of notification
-            if (!$this->checkSignature((array)$request, $this->merchantEmail, $this->token))  {
+            if (!$this->checkSignature($request, $this->merchantEmail, $this->token))  {
                 throw new NotificationSecurityException('Incorrect signature received');;
             } else {
                 return true;
@@ -206,14 +206,17 @@ class Notification
     }
 
     /**
-     * @param $request array
+     * @param $request array|object
      * @param $merchantEmail string
      * @param $token string
      * @return bool
      */
     public function checkSignature($request, $merchantEmail, $token): bool
     {
-        $signature = $request['signature'];
+        if (is_object($request))
+            $signature = $request->signature;
+        else
+            $signature = $request['signature'];
         $flatted = $this->flatten($request);
         $sorted = ksort($flatted);
 
