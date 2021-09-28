@@ -214,7 +214,7 @@ class Notification
     public function checkSignature($request, $merchantEmail, $token): bool
     {
         if (is_object($request))
-            $signature = $request->signature;
+            $signature = $request->getSignature();
         else
             $signature = $request['signature'];
         $flatted = $this->flatten($request);
