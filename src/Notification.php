@@ -213,12 +213,14 @@ class Notification
      */
     public function checkSignature($request, $merchantEmail, $token): bool
     {
-        if (is_object($request))
-            $signature = $request->getSignature();
-        else
-            $signature = $request['signature'];
+        $debug = '';
+        if (is_object($request)) {
+            $request = $this->object_to_array($request);
+        }
+        $signature = $request['signature'];
+
         $flatted = $this->flatten($request);
-        $sorted = ksort($flatted);
+        ksort($flatted);
 
         $string = $this->stringify($flatted) . $merchantEmail.$token;
         $resultSignature = md5($string);
@@ -262,7 +264,7 @@ class Notification
         $return = [];
         foreach ($array as $key => $value) {
             if (is_array($value)) {
-                $return = array_merge($return, flatten($value, $key));
+                $return = array_merge($return, $this->flatten($value, $key));
             } else {
                 if (is_null($mkey)) {
                     $rkey = $key;
@@ -276,6 +278,24 @@ class Notification
         }
 
         return $return;
+    }
+
+    /**
+     * @param $data
+     * @return array|mixed
+     */
+    private function object_to_array($data)
+    {
+        if (is_array($data) || is_object($data))
+        {
+            $result = [];
+            foreach ($data as $key => $value)
+            {
+                $result[$key] = (is_array($data) || is_object($data)) ? $this->object_to_array($value) : $value;
+            }
+            return $result;
+        }
+        return $data;
     }
 
     /**
