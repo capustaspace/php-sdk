@@ -220,7 +220,7 @@ class Notification
         $flatted = $this->flatten($request);
         $sorted = ksort($flatted);
 
-        $string = $this->stringify($sorted) . $merchantEmail.$token;
+        $string = $this->stringify($flatted) . $merchantEmail.$token;
         $resultSignature = md5($string);
         return  $signature == $resultSignature;
     }
