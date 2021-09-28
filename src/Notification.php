@@ -182,7 +182,7 @@ class Notification
         }
 
         $request = $this->getRequestFromBody();
-        $signatureExists = isset($request['signature']);
+        $signatureExists = $request->getSignature();
         $auth  = isset($_SERVER["HTTP_AUTHORIZATION"]) ? $_SERVER["HTTP_AUTHORIZATION"]: false;
         if ($signatureExists) {
             // checking signature of notification

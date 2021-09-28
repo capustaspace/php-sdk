@@ -17,6 +17,11 @@ class NotificationRequest extends AbstractRequest
     private $transactionId;
 
     /**
+     * @var string
+     */
+    private $signature;
+
+    /**
      * @var AmountResponseItem
      */
     private $amount;
@@ -37,6 +42,14 @@ class NotificationRequest extends AbstractRequest
     public function getTransactionId()
     {
         return $this->transactionId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSignature()
+    {
+        return $this->signature;
     }
 
     /**
