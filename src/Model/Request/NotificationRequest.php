@@ -52,6 +52,15 @@ class NotificationRequest extends AbstractRequest
         return $this->signature;
     }
 
+
+    /**
+     * @param string $signature
+     */
+    public function setSignature(string $signature)
+    {
+        $this->signature = $signature;
+    }
+    
     /**
      * @param string $transactionId
      */
