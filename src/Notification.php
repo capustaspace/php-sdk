@@ -145,12 +145,10 @@ class Notification
     }
 
     /**
+     * @param false $asArray
      * @return NotificationRequest
-     *
-     * @throws NotificationParseException
-     * @throws IncorrectBodyRequestException
      */
-    protected function getRequestFromBody()
+    protected function getRequestFromBody($asArray=false)
     {
         $body = $this->getBody();
         if (!is_string($body)) {
@@ -163,6 +161,9 @@ class Notification
             throw new IncorrectBodyRequestException('The request body contains an invalid json');
         }
 
+        if ($asArray) {
+            return $body;
+        }
         try {
             /** @var NotificationRequest $request */
             $request = RequestCreator::create(NotificationRequest::class, $body);
@@ -182,11 +183,12 @@ class Notification
         }
 
         $request = $this->getRequestFromBody();
+        $requestArray = $this->getRequestFromBody(true);
         $signatureExists = $request->getSignature();
         $auth  = isset($_SERVER["HTTP_AUTHORIZATION"]) ? $_SERVER["HTTP_AUTHORIZATION"]: false;
         if (isset($signatureExists) && strlen($signatureExists)) {
             // checking signature of notification
-            if (!$this->checkSignature($request, $this->merchantEmail, $this->token))  {
+            if (!$this->checkSignature($requestArray, $this->merchantEmail, $this->token))  {
                 throw new NotificationSecurityException('Incorrect signature received');;
             } else {
                 return true;
@@ -206,17 +208,13 @@ class Notification
     }
 
     /**
-     * @param $request array|object
+     * @param $request array
      * @param $merchantEmail string
      * @param $token string
      * @return bool
      */
-    public function checkSignature($request, $merchantEmail, $token): bool
+    public function checkSignature(array $request, $merchantEmail, $token): bool
     {
-        $debug = '';
-        if (is_object($request)) {
-            $request = (array) $request;
-        }
         throw new NotificationSecurityException(json_encode($request));
         $signature = $request['signature'];
 
