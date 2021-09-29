@@ -215,7 +215,6 @@ class Notification
      */
     public function checkSignature(array $request, $merchantEmail, $token): bool
     {
-        throw new NotificationSecurityException(json_encode($request));
         $signature = $request['signature'];
 
         $flatted = $this->flatten($request);
