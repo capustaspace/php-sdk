@@ -146,7 +146,7 @@ class Notification
 
     /**
      * @param false $asArray
-     * @return NotificationRequest
+     * @return NotificationRequest | array
      */
     protected function getRequestFromBody($asArray=false)
     {
@@ -188,11 +188,16 @@ class Notification
         $auth  = isset($_SERVER["HTTP_AUTHORIZATION"]) ? $_SERVER["HTTP_AUTHORIZATION"]: false;
         if (isset($signatureExists) && strlen($signatureExists)) {
             // checking signature of notification
-            if (!$this->checkSignature($requestArray, $this->merchantEmail, $this->token))  {
+            if (!Signature::check($requestArray, $this->merchantEmail, $this->token)) {
                 throw new NotificationSecurityException('Incorrect signature received');;
             } else {
                 return true;
             }
+//            if (!$this->checkSignature($requestArray, $this->merchantEmail, $this->token))  {
+//
+//            } else {
+//                return true;
+//            }
         } else {
             //check auth headers
             if (!$auth)
@@ -207,23 +212,6 @@ class Notification
         }
     }
 
-    /**
-     * @param $request array
-     * @param $merchantEmail string
-     * @param $token string
-     * @return bool
-     */
-    public function checkSignature(array $request, $merchantEmail, $token): bool
-    {
-        $signature = $request['signature'];
-
-        $flatted = $this->flatten($request);
-        ksort($flatted);
-
-        $string = $this->stringify($flatted) . $merchantEmail.$token;
-        $resultSignature = md5($string);
-        return  $signature == $resultSignature;
-    }
 
     /**
      * @return bool|string
@@ -249,66 +237,6 @@ class Notification
 
     public function isIpCheckSkipped() {
         return $this->skipIpCheck;
-    }
-
-    /**
-     * converts multi-fivensional array to assoc array
-     * @param $array
-     * @param string|null $mkey
-     * @return array
-     */
-    protected function  flatten($array, string $mkey = null): array
-    {
-        $return = [];
-        foreach ($array as $key => $value) {
-            if (is_array($value)) {
-                $return = array_merge($return, $this->flatten($value, $key));
-            } else {
-                if (is_null($mkey)) {
-                    $rkey = $key;
-                } else {
-                    $rkey = $mkey . '_' . $key;
-                }
-                if (!is_null($value) && $rkey !== 'signature') {
-                    $return[$rkey] = $value;
-                }
-            }
-        }
-
-        return $return;
-    }
-
-    /**
-     * @param $data
-     * @return array|mixed
-     */
-    private function object_to_array($data)
-    {
-        if (is_array($data) || is_object($data))
-        {
-            $result = [];
-            foreach ($data as $key => $value)
-            {
-                $result[$key] = (is_array($data) || is_object($data)) ? $this->object_to_array($value) : $value;
-            }
-            return $result;
-        }
-        return $data;
-    }
-
-    /**
-     * Converts array to string
-     * @param $array
-     * @return string
-     */
-    protected function stringify(array $array): string
-    {
-        $return = '';
-        foreach ($array as $key => $value) {
-            $value = is_bool($value) ? ($value ? 'true' : 'false') : $value;
-            $return .= $key . $value;
-        }
-        return $return;
     }
 
 }
