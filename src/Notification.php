@@ -193,11 +193,6 @@ class Notification
             } else {
                 return true;
             }
-//            if (!$this->checkSignature($requestArray, $this->merchantEmail, $this->token))  {
-//
-//            } else {
-//                return true;
-//            }
         } else {
             //check auth headers
             if (!$auth)
