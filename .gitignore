@@ -1,7 +1,7 @@
 /vendor/
 composer.lock
 composer.phar
-test.php
+*test.php
 curl.php
 /.idea/
 *.iml
