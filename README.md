@@ -355,6 +355,15 @@ $notification->setAuth('merchantEmail', 'token');
 $responseNotification = $notification->process();
 ```
 $responseNotification contains object with notification parameters.
+For example, you can get main parameters like this:
+```php
+$callbackPaymentData  = [
+    'amount' => $responseNotification->getAmount(),
+    'currency' => $responseNotification->getAmount()->getCurrency(),
+    'commission' => $responseNotification->getAmount()->getCommission(),
+    'status' => $responseNotification->getStatus()
+];
+```
 
 You can use manual response to server:
 
