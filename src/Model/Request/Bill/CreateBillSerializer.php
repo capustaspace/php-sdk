@@ -60,10 +60,14 @@ class CreateBillSerializer extends AbstractRequestSerializer
 
         if ($subscription) {
             $per = $subscription->getPer();
+            $trialDays = $subscription->getTrialDays();
             if ($per) {
                 $serializedCreateBill['subscription']['per'] = $per;
             }
             $serializedCreateBill['subscription']['oneTimePayment'] = $subscription->getOnetimepayment() ? true : false;
+            if ($trialDays) {
+                $serializedCreateBill['subscription']['trialDays'] = $trialDays;
+            }
         }
 
         $serializedCreateBill['projectCode'] = $projectCode;

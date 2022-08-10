@@ -1,5 +1,6 @@
 /vendor/
 composer.lock
+composer.json
 composer.phar
 test.php
 curl.php

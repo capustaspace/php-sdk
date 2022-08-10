@@ -10,12 +10,17 @@ trait SubscriptionItemTrait
     private $per;
 
     /**
-     * @var integer
+     * @var integer|null
      */
     private $oneTimePayment;
 
     /**
-     * @return string
+     * @var integer
+     */
+    private $trialDays;
+
+    /**
+     * @return string|null
      */
     public function getPer()
     {
@@ -23,11 +28,19 @@ trait SubscriptionItemTrait
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getOneTimePayment()
     {
         return $this->oneTimePayment;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getTrialDays()
+    {
+        return $this->trialDays;
     }
 
 }

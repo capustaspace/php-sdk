@@ -29,6 +29,7 @@ class SubscriptionRequestItem extends AbstractRequestItem
         return [
             'per' => self::TYPE_STRING,
             'oneTimePayment' => self::TYPE_BOOLEAN,
+            'trialDays' => self::TYPE_INTEGER,
         ];
     }
 }
