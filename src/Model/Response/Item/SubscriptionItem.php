@@ -15,6 +15,12 @@ class SubscriptionItem extends AbstractResponse
      * @var boolean
      */
     private $oneTimePayment;
+
+    /**
+     * @var integer|null
+     */
+    private $trialDays;
+
     /**
      * @var string|null
      */
@@ -35,6 +41,11 @@ class SubscriptionItem extends AbstractResponse
     public function getOneTimePayment()
     {
         return $this->oneTimePayment;
+    }
+
+    public function getTrialDays()
+    {
+        return $this->trialDays;
     }
 
     /**

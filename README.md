@@ -1,5 +1,5 @@
 # Capusta.Space PHP SDK
-
+# Latest version is v1.14.0
 ### Documentation: https://dev.capusta.space/
 
 ## Requirements
@@ -139,6 +139,7 @@ $requestArray = [
         'per' => 'WEEKLY', // period, optional. can be  'DAILY', 'MONTHLY', 'WEEKLY, 'SELECTIVELY'.
         // if per is absent it creates simple the recurring bill without any period. 
         'oneTimePayment' => false, //boolean. if false the bill can be paid several times.
+        'trialDays' => 0 // optional int. The free days of trial subscription before payment.
     ], //optional settings to create recurring payment.
     'description' => "description", //optional description of bill
     'projectCode' => "code", //your project code
@@ -355,6 +356,16 @@ $notification->setAuth('merchantEmail', 'token');
 $responseNotification = $notification->process();
 ```
 $responseNotification contains object with notification parameters.
+For example, you can get main parameters like this:
+```php
+$callbackPaymentData  = [
+    'amount' => $responseNotification->getAmount(),
+    'currency' => $responseNotification->getAmount()->getCurrency(),
+    'commission' => $responseNotification->getAmount()->getCommission(),
+    'status' => $responseNotification->getStatus()
+];
+```
+
 For example, you can get main parameters like this:
 ```php
 $callbackPaymentData  = [

@@ -7,6 +7,7 @@ use Capusta\SDK\Model\Interfaces\RestorableInterface;
 use Capusta\SDK\Model\Request\Item\SenderRequestItem;
 use Capusta\SDK\Model\Response\AbstractResponse;
 use Capusta\SDK\Model\Response\Item\AmountResponseItem;
+use Capusta\SDK\Model\Response\Item\SubscriptionResponseItem;
 use Capusta\SDK\Model\Traits\RecursiveRestoreTrait;
 
 class CreatePaymentResponse extends AbstractResponse
@@ -27,6 +28,11 @@ class CreatePaymentResponse extends AbstractResponse
      * @var AmountResponseItem
      */
     private $amount;
+
+    /**
+     * @var SubscriptionResponseItem
+     */
+    private $subscription;
 
     /**
      * @var string|null
@@ -127,6 +133,14 @@ class CreatePaymentResponse extends AbstractResponse
     public function getAmount()
     {
         return $this->amount;
+    }
+
+    /**
+     * @return SubscriptionResponseItem
+     */
+    public function getSubscription()
+    {
+        return $this->subscription;
     }
 
     /**
